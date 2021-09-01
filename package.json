@@ -1,0 +1,29 @@
+{
+    "name": "snsserver",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "tsc": "tsc",
+        "build": "webpack"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/teamN-nagoya/SnsServer.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/teamN-nagoya/SnsServer/issues"
+    },
+    "homepage": "https://github.com/teamN-nagoya/SnsServer#readme",
+    "devDependencies": {
+        "typescript": "^4.4.2"
+    },
+    "dependencies": {
+        "@types/node": "^16.7.8",
+        "node-uuid": "^1.4.8",
+        "socket.io": "^4.2.0"
+    }
+}
