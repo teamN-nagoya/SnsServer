@@ -20,12 +20,26 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocket = __importStar(require("ws"));
+var menberRegistration_1 = require("./menberRegistration");
+var snsLogin_1 = require("./snsLogin");
 var server = new WebSocket.Server({ port: 5001 });
 server.on("connection", function (ws) {
     ws.on("message", function (message) {
-        console.log("Received: " + message);
-        if (message === "hello") {
-            ws.send("hello from server");
+        console.log(message);
+        var packet = JSON.parse(message.toString());
+        switch (packet.packetName) {
+            case "MemverRegistrationC2SPacket":
+                console.log("Received: " + packet.packetName);
+                console.log("Received: " + packet.userid);
+                console.log("Received: " + packet.passwordhash);
+                (0, menberRegistration_1.memverRegistration)(packet.userid, packet.passwordhash);
+                break;
+            case "LoginRegistrationC2SPacket":
+                console.log("Received: " + packet.packetName);
+                console.log("Received: " + packet.userid);
+                console.log("Received: " + packet.passwordhash);
+                (0, snsLogin_1.snsLogin)(packet.userid, packet.passwordhash);
+                break;
         }
     });
 });

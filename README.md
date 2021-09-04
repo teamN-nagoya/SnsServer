@@ -1,26 +1,24 @@
 # SnsServer
 
-HackU/teamNで作成するSNSのサーバーサイドです。
+HackU/teamN で作成する SNS のサーバーサイドです。
 
 # DEMO
 
-まだない。
+index.html
 
 # Features
 
-・Twitterなどで良く見られる不快な文章を見なくて済むように、、、、
-・日常に笑いを届けるあたたかいSNS
-・もっとラフで楽しめるSNS
+・Twitter などで良く見られる不快な文章を見なくて済むように、、、、
+・日常に笑いを届けるあたたかい SNS
+・もっとラフで楽しめる SNS
 
 # Requirement
 
-* typescript 4.4.2
-* webpack 5.51.1
-* uuid 8.3.2
+- typescript 4.4.2
 
 # Installation
 
-npmを使用しています
+npm を使用しています
 
 # Usage
 
@@ -28,9 +26,10 @@ npmを使用しています
 
 # Author
 
-* name:yuyukichi
-* team:teamN
-* meal:yuukichi777@outlook.jp
+- name:yuyukichi
+- team:teamN
+- meal:yuukichi777@outlook.jp
 
 # License
+
 チーム外秘
