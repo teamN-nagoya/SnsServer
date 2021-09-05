@@ -1,18 +1,10 @@
 [
  {
-  "userid": "user1",
-  "pathwordhash": "password_Hash1"
+  "userId": "user1",
+  "passwordHash": "passwordhash1"
  },
  {
-  "userid": "user2",
-  "pathwordhash": "password_Hash2"
- },
- {
-  "userid": "user_Id3",
-  "pathwordhash": "password_Hash3"
- },
- {
-  "userid": "user_Id4",
-  "pathwordhash": "password_Hash4"
+  "userId": "user2",
+  "passwordHash": "passwordhash2"
  }
 ]

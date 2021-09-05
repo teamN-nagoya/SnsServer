@@ -19,11 +19,11 @@ exports.LoginRequestC2SPacket = void 0;
 var Packet_1 = require("../Packet");
 var LoginRequestC2SPacket = /** @class */ (function (_super) {
     __extends(LoginRequestC2SPacket, _super);
-    function LoginRequestC2SPacket(password, userid) {
+    function LoginRequestC2SPacket(passwordHash, userid) {
         var _this = _super.call(this) || this;
         _this.packetName = "LoginRegistrationC2SPacket";
         _this.userid = userid;
-        _this.password = password;
+        _this.passwordHash = passwordHash;
         return _this;
     }
     LoginRequestC2SPacket.prototype.toJson = function () {

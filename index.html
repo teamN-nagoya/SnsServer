@@ -33,16 +33,15 @@
         });
         const obj = {
             packetName: "MemverRegistrationC2SPacket",
-            userid: "user_Id4",
-            passwordhash: "password_Hash4"
+            userId: "user2",
+            passwordHash: "passwordhash2"
         }
         const obj2 = {
             packetName: "LoginRegistrationC2SPacket",
-            userid: "user_Id3",
-            passwordhash: "passwordhash"
+            userId: "user2",
+            passwordHash: "passwordhash2"
         }
         btn.addEventListener("click", e => {
-
             sock.send(JSON.stringify(obj))
         });
         btn2.addEventListener("click", e => {

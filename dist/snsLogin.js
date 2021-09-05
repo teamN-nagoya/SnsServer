@@ -6,25 +6,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.snsLogin = void 0;
 var fs_1 = __importDefault(require("fs"));
 var FileFunction_1 = require("./FileFunction");
-var bcrypt = require('bcrypt');
-var saltRounds = 10; //ストレッチング回数
-function snsLogin(userid, pathwordhash) {
+// const bcrypt = require('bcrypt');
+// const saltRounds = 10; //ストレッチング回数
+function snsLogin(userid, passwordhash) {
     //DBからデータ取り出し
     var getdb = fs_1.default.readFileSync("data/accountdata.json", "utf8");
     var db = JSON.parse(getdb);
     //入力情報を参照
     var obj = {
-        userid: userid,
-        pathwordhash: pathwordhash
+        userId: userid,
+        passwordHash: passwordhash
     };
-    //入力時に該当するユーザーIDがあるかチェック
-    (0, FileFunction_1.useridcheck)(db, obj);
+    console.log((0, FileFunction_1.useridget)(db, obj));
+    console.log(obj.passwordHash);
+    console.log((0, FileFunction_1.useridget)(db, obj).passwordHash == obj.passwordHash);
     //ログイン時にハッシュをチェック
-    // if(saveaccount.password_hash){
-    //ログイン成功をクライアントに返すやつ
-    //}
-    //else{
-    //ログイン失敗をクライアントに返すやつ
-    //}
+    if ((0, FileFunction_1.useridget)(db, obj).passwordHash == obj.passwordHash) {
+        //login成功
+        return true;
+    }
+    else {
+        //login失敗
+        return false;
+    }
 }
 exports.snsLogin = snsLogin;
