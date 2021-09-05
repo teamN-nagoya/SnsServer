@@ -12,7 +12,8 @@
 <body>
     <button id="btn">ユーザー登録</button>
     <button id="btn2">ログイン</button>
-
+    <textarea>
+    <button id="btn2">ログイン</button>
     <script>
         const sock = new WebSocket("ws://127.0.0.1:5001");
 
@@ -31,6 +32,7 @@
         sock.addEventListener("error", e => {
             console.log("エラーが発生したときに呼び出されるイベント");
         });
+	//仮でobjとして送信するパケットをおいておきます
         const obj = {
             packetName: "MemverRegistrationC2SPacket",
             userId: "user2",

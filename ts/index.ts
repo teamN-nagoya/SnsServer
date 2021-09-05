@@ -1,8 +1,11 @@
 import * as WebSocket from 'ws'
+import { Express } from 'express-serve-static-core';
 import { Packet } from './Packet/Packet';
 import { LoginRequestC2SPacket } from './Packet/C2Spacket/LoginRequestC2SPacket';
 import { memverRegistration } from './menberRegistration';
 import { snsLogin } from './snsLogin';
+import http from "http";
+
 //Socket.ioで……
 const server = new WebSocket.Server({ port: 5001 })
 
