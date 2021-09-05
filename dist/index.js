@@ -52,6 +52,8 @@ server.on("connection", function (ws) {
                     ws.send("Login error");
                 }
                 break;
+            case "SNSC2SPacket":
+                console.log("Received: " + packet.packetName);
         }
     });
     ws.on('close', function () {

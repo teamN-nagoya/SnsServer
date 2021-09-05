@@ -10,10 +10,12 @@
 </head>
 
 <body>
+    <input type="text" id="userId" placeholder="userId">
+    <input type="text" id="passwordHash" placeholder="passwordHash">
     <button id="btn">ユーザー登録</button>
     <button id="btn2">ログイン</button>
-    <textarea>
-    <button id="btn2">ログイン</button>
+    <textarea id="textarea3" rows="4" cols="120">cols="120"のテキストエリアです。</textarea><br>
+    <button id="btn3">テキスト送信</button>
     <script>
         const sock = new WebSocket("ws://127.0.0.1:5001");
 
@@ -32,8 +34,14 @@
         sock.addEventListener("error", e => {
             console.log("エラーが発生したときに呼び出されるイベント");
         });
-	//仮でobjとして送信するパケットをおいておきます
-        const obj = {
+
+        function clickBtn3() {
+            const te3 = document.getElementById("textarea3").value;
+            return te3
+        }
+
+        //仮でobjとして送信するパケットをおいておきます
+        const obj1 = {
             packetName: "MemverRegistrationC2SPacket",
             userId: "user2",
             passwordHash: "passwordhash2"
@@ -43,11 +51,31 @@
             userId: "user2",
             passwordHash: "passwordhash2"
         }
+        const obj3 = {
+            packetName: "SNSC2SPacket",
+            userId: "user2",
+            textMessage: "text"
+        }
         btn.addEventListener("click", e => {
-            sock.send(JSON.stringify(obj))
+            const userId = document.getElementById("userId").value;
+            const passwordHash = document.getElementById("passwordHash").value;
+            obj1.userId = userId;
+            obj1.passwordHash = passwordHash;
+            sock.send(JSON.stringify(obj1))
         });
         btn2.addEventListener("click", e => {
+            const userId = document.getElementById("userId").value;
+            const passwordHash = document.getElementById("passwordHash").value;
+            obj2.userId = userId;
+            obj2.passwordHash = passwordHash;
             sock.send(JSON.stringify(obj2))
+        })
+        btn3.addEventListener("click", e => {
+            const userId = document.getElementById("userId").value;
+            const te3 = document.getElementById("textarea3").value;
+            obj3.userId = userId;
+            obj3.textMessage = te3;
+            sock.send(JSON.stringify(obj3))
         })
     </script>
 </body>

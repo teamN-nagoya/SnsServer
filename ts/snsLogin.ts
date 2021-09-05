@@ -1,6 +1,4 @@
 import fs from "fs";
-import { accountwriteFileJson } from "./FileFunction";
-import { useridcheck } from "./FileFunction";
 import { useridget } from "./FileFunction";
 // const bcrypt = require('bcrypt');
 // const saltRounds = 10; //ストレッチング回数
