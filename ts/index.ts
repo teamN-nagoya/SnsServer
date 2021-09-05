@@ -4,6 +4,7 @@ import { Packet } from './Packet/Packet';
 import { LoginRequestC2SPacket } from './Packet/C2Spacket/LoginRequestC2SPacket';
 import { memverRegistration } from './menberRegistration';
 import { snsLogin } from './snsLogin';
+import { memverDelete} from './memverDelete';
 import http from "http";
 
 //Socket.ioで……
@@ -16,30 +17,44 @@ server.on("connection", (ws) => {
 	switch(packet.packetName){
 		case "MemverRegistrationC2SPacket":
 			console.log("Received: " + packet.packetName);
-			console.log("Received: " + packet.userId);
-			console.log("Received: " + packet.passwordHash);
 			if(memverRegistration(packet.userId,packet.passwordHash)){
 				ws.send("MemverRegistration execution!")
+				console.log("MemverRegistration error")
 			}
 			else{
 				ws.send("MemverRegistration error")
+				console.log("MemverRegistration error")
 			};
 			break;
 
 		case "LoginRegistrationC2SPacket":
 			console.log("Received: " + packet.packetName);
-			console.log("Received: " + packet.userId);
-			console.log("Received: " + packet.passwordHash);
 			if(snsLogin(packet.userId,packet.passwordHash)){
-				ws.send("Login execution！")
+				ws.send("Login execution!")
+				console.log("Login execution!")
 			}
 			else{
 				ws.send("Login error")
+				console.log("Login error!")
 			}
 			break;
+		case "menberEjectC2SPacket":
+			console.log("Received: " + packet.packetName);
+			
+			if(memverDelete(packet.userId,packet.passwordHash)){
+				ws.send("memberEject execution!")
+				console.log("memberEject execution!")
+			}
+			else{
+				ws.send("menberEject error")
+				console.log("menberEject error")
+			}
+
 
 		case "SNSC2SPacket":
 			console.log("Received: " + packet.packetName);
+
+
 	}
 	});
 	ws.on('close', () => {

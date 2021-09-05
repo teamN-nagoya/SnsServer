@@ -4,7 +4,7 @@ import { useridget } from "./FileFunction";
 // const saltRounds = 10; //ストレッチング回数
 
 export function snsLogin(userid:string,passwordhash:string){
-	//DBからデータ取り出し
+	//DB呼び出し＆デコード
 	const getdb = fs.readFileSync( "data/accountdata.json","utf8");
 	let db = JSON.parse(getdb)
 
@@ -14,9 +14,7 @@ export function snsLogin(userid:string,passwordhash:string){
 		passwordHash:passwordhash
 	}
 
-	console.log(useridget(db,obj))
-	console.log(obj.passwordHash)
-	console.log(useridget(db,obj).passwordHash == obj.passwordHash)
+
 	//ログイン時にハッシュをチェック
 	if(useridget(db,obj).passwordHash == obj.passwordHash){
 		//login成功

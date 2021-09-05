@@ -5,11 +5,11 @@ import { accountwriteFileJson } from "./FileFunction";
 import { useridcheck } from "./FileFunction";
 
 export function memverRegistration(userid:string,passwordhash:string){ 
-	//accountdata.json呼び出し＆デコード
+	//DB呼び出し＆デコード
 	const getdb = fs.readFileSync( "data/accountdata.json","utf8")
 	let db = JSON.parse(getdb)
 
-	//accountdata.jsonに受け取ったobj追加	
+	//DBに受け取ったobj追加	
 	const obj = {
 		userId:userid,
 		passwordHash:passwordhash

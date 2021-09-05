@@ -9,7 +9,7 @@ var FileFunction_1 = require("./FileFunction");
 // const bcrypt = require('bcrypt');
 // const saltRounds = 10; //ストレッチング回数
 function snsLogin(userid, passwordhash) {
-    //DBからデータ取り出し
+    //DB呼び出し＆デコード
     var getdb = fs_1.default.readFileSync("data/accountdata.json", "utf8");
     var db = JSON.parse(getdb);
     //入力情報を参照
@@ -17,9 +17,6 @@ function snsLogin(userid, passwordhash) {
         userId: userid,
         passwordHash: passwordhash
     };
-    console.log((0, FileFunction_1.useridget)(db, obj));
-    console.log(obj.passwordHash);
-    console.log((0, FileFunction_1.useridget)(db, obj).passwordHash == obj.passwordHash);
     //ログイン時にハッシュをチェック
     if ((0, FileFunction_1.useridget)(db, obj).passwordHash == obj.passwordHash) {
         //login成功

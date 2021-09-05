@@ -20,7 +20,7 @@ function accountwriteFileJson(json) {
     });
 }
 exports.accountwriteFileJson = accountwriteFileJson;
-//dbから該当するユーザーIDを取り出し
+//dbから該当するユーザー情報を取り出し
 function useridget(db, obj) {
     for (var i = 0; i < Object.keys(db).length; i++) {
         if (db[i].userId == obj.userId) {

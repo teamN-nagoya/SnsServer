@@ -22,6 +22,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocket = __importStar(require("ws"));
 var menberRegistration_1 = require("./menberRegistration");
 var snsLogin_1 = require("./snsLogin");
+var memverDelete_1 = require("./memverDelete");
 //Socket.ioで……
 var server = new WebSocket.Server({ port: 5001 });
 server.on("connection", function (ws) {
@@ -31,27 +32,37 @@ server.on("connection", function (ws) {
         switch (packet.packetName) {
             case "MemverRegistrationC2SPacket":
                 console.log("Received: " + packet.packetName);
-                console.log("Received: " + packet.userId);
-                console.log("Received: " + packet.passwordHash);
                 if ((0, menberRegistration_1.memverRegistration)(packet.userId, packet.passwordHash)) {
                     ws.send("MemverRegistration execution!");
+                    console.log("MemverRegistration error");
                 }
                 else {
                     ws.send("MemverRegistration error");
+                    console.log("MemverRegistration error");
                 }
                 ;
                 break;
             case "LoginRegistrationC2SPacket":
                 console.log("Received: " + packet.packetName);
-                console.log("Received: " + packet.userId);
-                console.log("Received: " + packet.passwordHash);
                 if ((0, snsLogin_1.snsLogin)(packet.userId, packet.passwordHash)) {
-                    ws.send("Login execution！");
+                    ws.send("Login execution!");
+                    console.log("Login execution!");
                 }
                 else {
                     ws.send("Login error");
+                    console.log("Login error!");
                 }
                 break;
+            case "menberEjectC2SPacket":
+                console.log("Received: " + packet.packetName);
+                if ((0, memverDelete_1.memverDelete)(packet.userId, packet.passwordHash)) {
+                    ws.send("memberEject execution!");
+                    console.log("memberEject execution!");
+                }
+                else {
+                    ws.send("menberEject error");
+                    console.log("menberEject error");
+                }
             case "SNSC2SPacket":
                 console.log("Received: " + packet.packetName);
         }

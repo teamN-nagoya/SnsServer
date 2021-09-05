@@ -6,5 +6,9 @@
  {
   "userId": "user2",
   "passwordHash": "passwordhash2"
+ },
+ {
+  "userId": "yuyukichi",
+  "passwordHash": "riotan55"
  }
 ]

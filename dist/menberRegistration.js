@@ -8,10 +8,10 @@ var fs_1 = __importDefault(require("fs"));
 var FileFunction_1 = require("./FileFunction");
 var FileFunction_2 = require("./FileFunction");
 function memverRegistration(userid, passwordhash) {
-    //accountdata.json呼び出し＆デコード
+    //DB呼び出し＆デコード
     var getdb = fs_1.default.readFileSync("data/accountdata.json", "utf8");
     var db = JSON.parse(getdb);
-    //accountdata.jsonに受け取ったobj追加	
+    //DBに受け取ったobj追加	
     var obj = {
         userId: userid,
         passwordHash: passwordhash

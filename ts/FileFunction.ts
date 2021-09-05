@@ -13,7 +13,7 @@ export function accountwriteFileJson(json:string){
 		}
 });}
 
-	//dbから該当するユーザーIDを取り出し
+	//dbから該当するユーザー情報を取り出し
 export function useridget(db:any,obj:any){
 		for(let i = 0; i < Object.keys(db).length; i++){
 			if(db[i].userId == obj.userId){
