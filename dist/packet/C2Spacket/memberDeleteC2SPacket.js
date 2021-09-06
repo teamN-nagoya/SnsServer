@@ -15,20 +15,20 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MessageSendC2SPacket = void 0;
+exports.MemberDeleteC2SPacket = void 0;
 var Packet_1 = require("../Packet");
-var MessageSendC2SPacket = /** @class */ (function (_super) {
-    __extends(MessageSendC2SPacket, _super);
-    function MessageSendC2SPacket(userid, message) {
+var MemberDeleteC2SPacket = /** @class */ (function (_super) {
+    __extends(MemberDeleteC2SPacket, _super);
+    function MemberDeleteC2SPacket(password, userid) {
         var _this = _super.call(this) || this;
-        _this.packetName = "MessageSendC2SPacket";
+        _this.packetName = "MemberDeleteC2SPacket";
         _this.userid = userid;
-        _this.message = message;
+        _this.password = password;
         return _this;
     }
-    MessageSendC2SPacket.prototype.toJson = function () {
+    MemberDeleteC2SPacket.prototype.toJson = function () {
         return JSON.stringify(this);
     };
-    return MessageSendC2SPacket;
+    return MemberDeleteC2SPacket;
 }(Packet_1.Packet));
-exports.MessageSendC2SPacket = MessageSendC2SPacket;
+exports.MemberDeleteC2SPacket = MemberDeleteC2SPacket;

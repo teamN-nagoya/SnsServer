@@ -2,7 +2,6 @@
 
 import { SignUpC2SPacket } from "./Packet/C2Spacket/SignUpC2SPacket";
 import { Packet } from "./Packet/Packet";
-import fs from "fs";
 import { accountWriteFileJson } from "./FileFunction";
 import { useridcheck } from "./FileFunction";
 import { useridget } from "./FileFunction";

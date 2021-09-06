@@ -5,6 +5,7 @@ import { SignInC2SPacket } from './Packet/C2Spacket/SignInC2SPacket';
 import { SignUp } from './SignUp';
 import { SignIn } from './SignIn';
 import { memverDelete } from './memverDelete';
+import { messageDelete } from './messageDelete';
 import { messageSend } from './messageSend';
 
 //Socket.ioで……
@@ -38,7 +39,7 @@ server.on("connection", (ws) => {
 				console.log("Login error!")
 			}
 			break;
-		case "memberDeleteC2SPacket":
+		case "MemberDeleteC2SPacket":
 			console.log("Received: " + packet.packetName);
 			
 			if(memverDelete(packet.userId,packet.passwordHash)){
@@ -52,7 +53,7 @@ server.on("connection", (ws) => {
 			break;
 
 
-		case "messageSendC2SPacket":
+		case "MessageSendC2SPacket":
 			console.log("Received: " + packet.packetName);
 			if(messageSend(packet.userId,packet.message)){
 				ws.send("messageSend execution")
@@ -62,9 +63,19 @@ server.on("connection", (ws) => {
 				ws.send("messageSend error")
 				console.log("messageSend error")
 			}
+			break;
 		
-		case "messageGetS2CPacket":
-
+		case "MessageDeleteC2SPacket":
+			console.log("Received: " + packet.packetName);
+			if(messageDelete(packet.requestUserId,packet.message)){
+				ws.send("messageDelete execution")
+				console.log("messageDelete execution")
+			}
+			else{
+				ws.send("messageDelete error")
+				console.log("messageDelete error")
+			}
+			break;
 
 	}
 	});

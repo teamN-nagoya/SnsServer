@@ -23,6 +23,7 @@ var WebSocket = __importStar(require("ws"));
 var SignUp_1 = require("./SignUp");
 var SignIn_1 = require("./SignIn");
 var memverDelete_1 = require("./memverDelete");
+var messageDelete_1 = require("./messageDelete");
 var messageSend_1 = require("./messageSend");
 //Socket.ioで……
 var server = new WebSocket.Server({ port: 5001 });
@@ -54,7 +55,7 @@ server.on("connection", function (ws) {
                     console.log("Login error!");
                 }
                 break;
-            case "memberDeleteC2SPacket":
+            case "MemberDeleteC2SPacket":
                 console.log("Received: " + packet.packetName);
                 if ((0, memverDelete_1.memverDelete)(packet.userId, packet.passwordHash)) {
                     ws.send("memberEject execution!");
@@ -65,7 +66,7 @@ server.on("connection", function (ws) {
                     console.log("menberEject error");
                 }
                 break;
-            case "messageSendC2SPacket":
+            case "MessageSendC2SPacket":
                 console.log("Received: " + packet.packetName);
                 if ((0, messageSend_1.messageSend)(packet.userId, packet.message)) {
                     ws.send("messageSend execution");
@@ -75,7 +76,18 @@ server.on("connection", function (ws) {
                     ws.send("messageSend error");
                     console.log("messageSend error");
                 }
-            case "messageGetS2CPacket":
+                break;
+            case "MessageDeleteC2SPacket":
+                console.log("Received: " + packet.packetName);
+                if ((0, messageDelete_1.messageDelete)(packet.requestUserId, packet.message)) {
+                    ws.send("messageDelete execution");
+                    console.log("messageDelete execution");
+                }
+                else {
+                    ws.send("messageDelete error");
+                    console.log("messageDelete error");
+                }
+                break;
         }
     });
     ws.on('close', function () {

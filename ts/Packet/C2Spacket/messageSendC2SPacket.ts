@@ -1,6 +1,6 @@
 import { Packet } from "../Packet";
-export class messageSendC2SPacket extends Packet {
-	override readonly packetName:string = "messageSendC2SPacket";
+export class MessageSendC2SPacket extends Packet {
+	override readonly packetName:string = "MessageSendC2SPacket";
 	readonly userid:string
 	readonly message:string
 	constructor(userid:string,message:string) {
