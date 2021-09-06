@@ -25,7 +25,8 @@ export function memverDelete(userid:string,passwordhash:string){
 			for(let i = 0; i < Object.keys(db).length; i++){
 				if(db[i].userId == obj.userId){
 					delete db[i]
-					const senddb = JSON.stringify(db,undefined,1);
+					const filterDB = db.filter(Boolean)
+					const senddb = JSON.stringify(filterDB,undefined,1);
 					accountWriteFileJson(senddb)
 					return true
 				}

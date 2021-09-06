@@ -9,14 +9,15 @@ var fs_1 = __importDefault(require("fs"));
 function getAccountDB() {
     var getdb = fs_1.default.readFileSync("data/accountdata.json", "utf8");
     var db = JSON.parse(getdb || "undefined");
+    return db;
 }
 exports.getAccountDB = getAccountDB;
 function getmessageDB() {
     var getdb = fs_1.default.readFileSync("data/messagedata.json", "utf8");
     var db = JSON.parse(getdb || "undefined");
+    return db;
 }
 exports.getmessageDB = getmessageDB;
-getAccountDB;
 function accountWriteFileJson(json) {
     fs_1.default.writeFile("data/accountdata.json", json, function (err) {
         // 書き出しに失敗した場合
