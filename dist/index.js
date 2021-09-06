@@ -54,7 +54,7 @@ server.on("connection", function (ws) {
                     console.log("Login error!");
                 }
                 break;
-            case "menberDeleteC2SPacket":
+            case "memberDeleteC2SPacket":
                 console.log("Received: " + packet.packetName);
                 if ((0, memverDelete_1.memverDelete)(packet.userId, packet.passwordHash)) {
                     ws.send("memberEject execution!");
@@ -64,6 +64,7 @@ server.on("connection", function (ws) {
                     ws.send("menberEject error");
                     console.log("menberEject error");
                 }
+                break;
             case "messageSendC2SPacket":
                 console.log("Received: " + packet.packetName);
                 if ((0, messageSend_1.messageSend)(packet.userId, packet.message)) {

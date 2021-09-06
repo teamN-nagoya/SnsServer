@@ -4,7 +4,7 @@ import { Packet } from './Packet/Packet';
 import { SignInC2SPacket } from './Packet/C2Spacket/SignInC2SPacket';
 import { SignUp } from './SignUp';
 import { SignIn } from './SignIn';
-import { memverDelete} from './memverDelete';
+import { memverDelete } from './memverDelete';
 import { messageSend } from './messageSend';
 
 //Socket.ioで……
@@ -38,7 +38,7 @@ server.on("connection", (ws) => {
 				console.log("Login error!")
 			}
 			break;
-		case "menberDeleteC2SPacket":
+		case "memberDeleteC2SPacket":
 			console.log("Received: " + packet.packetName);
 			
 			if(memverDelete(packet.userId,packet.passwordHash)){
@@ -49,6 +49,7 @@ server.on("connection", (ws) => {
 				ws.send("menberEject error")
 				console.log("menberEject error")
 			}
+			break;
 
 
 		case "messageSendC2SPacket":
