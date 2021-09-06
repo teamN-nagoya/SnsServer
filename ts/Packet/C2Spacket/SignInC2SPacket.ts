@@ -1,6 +1,6 @@
 import { Packet } from "../Packet";
-export class LoginRequestC2SPacket extends Packet {
-	override readonly packetName:string = "LoginRegistrationC2SPacket";
+export class SignInC2SPacket extends Packet {
+	override readonly packetName:string = "SignInC2SPacket";
 	readonly userid:string
 	readonly passwordHash:string
 	constructor(passwordHash:string,userid:string) {

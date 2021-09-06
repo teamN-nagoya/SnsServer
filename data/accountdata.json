@@ -1,14 +1,26 @@
-[
- {
-  "userId": "user1",
-  "passwordHash": "passwordhash1"
- },
- {
-  "userId": "user2",
-  "passwordHash": "passwordhash2"
- },
- {
-  "userId": "yuyukichi",
-  "passwordHash": "riotan55"
- }
+[{
+        "userId": "",
+        "userName": "",
+        "passwordHash": ""
+    },
+    {
+        "userId": "user1",
+        "userName": "yuyukichi",
+        "passwordHash": "password1"
+    },
+    {
+        "userId": "user2",
+        "userName": "yuyunkichi",
+        "passwordHash": "user2pass"
+    },
+    {
+        "userId": "user3",
+        "userName": "yuyunkichi",
+        "passwordHash": "user3pass"
+    },
+    {
+        "userId": "user5",
+        "userName": "user5",
+        "passwordHash": "user5"
+    }
 ]

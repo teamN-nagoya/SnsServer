@@ -1,11 +1,11 @@
 import * as WebSocket from 'ws'
 import { Express } from 'express-serve-static-core';
 import { Packet } from './Packet/Packet';
-import { LoginRequestC2SPacket } from './Packet/C2Spacket/LoginRequestC2SPacket';
-import { memverRegistration } from './menberRegistration';
-import { snsLogin } from './snsLogin';
+import { SignInC2SPacket } from './Packet/C2Spacket/SignInC2SPacket';
+import { SignUp } from './SignUp';
+import { SignIn } from './SignIn';
 import { memverDelete} from './memverDelete';
-import http from "http";
+import { messageSend } from './messageSend';
 
 //Socket.ioで……
 const server = new WebSocket.Server({ port: 5001 })
@@ -15,9 +15,9 @@ server.on("connection", (ws) => {
 	console.log(message)
 	const packet = JSON.parse(message.toString())
 	switch(packet.packetName){
-		case "MemverRegistrationC2SPacket":
+		case "SignUpC2SPacket":
 			console.log("Received: " + packet.packetName);
-			if(memverRegistration(packet.userId,packet.passwordHash)){
+			if(SignUp(packet.userId,packet.userName,packet.passwordHash)){
 				ws.send("MemverRegistration execution!")
 				console.log("MemverRegistration error")
 			}
@@ -27,9 +27,9 @@ server.on("connection", (ws) => {
 			};
 			break;
 
-		case "LoginRegistrationC2SPacket":
+		case "SignInC2SPacket":
 			console.log("Received: " + packet.packetName);
-			if(snsLogin(packet.userId,packet.passwordHash)){
+			if(SignIn(packet.userId,packet.passwordHash)){
 				ws.send("Login execution!")
 				console.log("Login execution!")
 			}
@@ -38,7 +38,7 @@ server.on("connection", (ws) => {
 				console.log("Login error!")
 			}
 			break;
-		case "menberEjectC2SPacket":
+		case "menberDeleteC2SPacket":
 			console.log("Received: " + packet.packetName);
 			
 			if(memverDelete(packet.userId,packet.passwordHash)){
@@ -51,8 +51,18 @@ server.on("connection", (ws) => {
 			}
 
 
-		case "SNSC2SPacket":
+		case "messageSendC2SPacket":
 			console.log("Received: " + packet.packetName);
+			if(messageSend(packet.userId,packet.message)){
+				ws.send("messageSend execution")
+				console.log("messageSend execution")
+			}
+			else{
+				ws.send("messageSend error")
+				console.log("messageSend error")
+			}
+		
+		case "messageGetS2CPacket":
 
 
 	}

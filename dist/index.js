@@ -20,9 +20,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocket = __importStar(require("ws"));
-var menberRegistration_1 = require("./menberRegistration");
-var snsLogin_1 = require("./snsLogin");
+var SignUp_1 = require("./SignUp");
+var SignIn_1 = require("./SignIn");
 var memverDelete_1 = require("./memverDelete");
+var messageSend_1 = require("./messageSend");
 //Socket.ioで……
 var server = new WebSocket.Server({ port: 5001 });
 server.on("connection", function (ws) {
@@ -30,9 +31,9 @@ server.on("connection", function (ws) {
         console.log(message);
         var packet = JSON.parse(message.toString());
         switch (packet.packetName) {
-            case "MemverRegistrationC2SPacket":
+            case "SignUpC2SPacket":
                 console.log("Received: " + packet.packetName);
-                if ((0, menberRegistration_1.memverRegistration)(packet.userId, packet.passwordHash)) {
+                if ((0, SignUp_1.SignUp)(packet.userId, packet.userName, packet.passwordHash)) {
                     ws.send("MemverRegistration execution!");
                     console.log("MemverRegistration error");
                 }
@@ -42,9 +43,9 @@ server.on("connection", function (ws) {
                 }
                 ;
                 break;
-            case "LoginRegistrationC2SPacket":
+            case "SignInC2SPacket":
                 console.log("Received: " + packet.packetName);
-                if ((0, snsLogin_1.snsLogin)(packet.userId, packet.passwordHash)) {
+                if ((0, SignIn_1.SignIn)(packet.userId, packet.passwordHash)) {
                     ws.send("Login execution!");
                     console.log("Login execution!");
                 }
@@ -53,7 +54,7 @@ server.on("connection", function (ws) {
                     console.log("Login error!");
                 }
                 break;
-            case "menberEjectC2SPacket":
+            case "menberDeleteC2SPacket":
                 console.log("Received: " + packet.packetName);
                 if ((0, memverDelete_1.memverDelete)(packet.userId, packet.passwordHash)) {
                     ws.send("memberEject execution!");
@@ -63,8 +64,17 @@ server.on("connection", function (ws) {
                     ws.send("menberEject error");
                     console.log("menberEject error");
                 }
-            case "SNSC2SPacket":
+            case "messageSendC2SPacket":
                 console.log("Received: " + packet.packetName);
+                if ((0, messageSend_1.messageSend)(packet.userId, packet.message)) {
+                    ws.send("messageSend execution");
+                    console.log("messageSend execution");
+                }
+                else {
+                    ws.send("messageSend error");
+                    console.log("messageSend error");
+                }
+            case "messageGetS2CPacket":
         }
     });
     ws.on('close', function () {

@@ -1,16 +1,16 @@
 //余裕があったら実装できたらなユーザー削除機能
 
-import { MemberRegistionC2SPacket } from "./Packet/C2Spacket/MemberRegistrationC2SPacket";
+import { SignUpC2SPacket } from "./Packet/C2Spacket/SignUpC2SPacket";
 import { Packet } from "./Packet/Packet";
 import fs from "fs";
-import { accountwriteFileJson } from "./FileFunction";
+import { accountWriteFileJson } from "./FileFunction";
 import { useridcheck } from "./FileFunction";
 import { useridget } from "./FileFunction";
+import { getAccountDB } from "./FileFunction";
 
 export function memverDelete(userid:string,passwordhash:string){ 
 	//DB呼び出し＆デコード
-	const getdb = fs.readFileSync( "data/accountdata.json","utf8")
-	let db = JSON.parse(getdb)
+	let db = getAccountDB()
 
 	//accountdata.jsonに受け取ったobj追加	
 	const obj = {
@@ -25,10 +25,8 @@ export function memverDelete(userid:string,passwordhash:string){
 			for(let i = 0; i < Object.keys(db).length; i++){
 				if(db[i].userId == obj.userId){
 					delete db[i]
-					db.pop()
 					const senddb = JSON.stringify(db,undefined,1);
-					accountwriteFileJson(senddb)
-					console.log("ユーザー情報は削除されました")
+					accountWriteFileJson(senddb)
 					return true
 				}
 			}

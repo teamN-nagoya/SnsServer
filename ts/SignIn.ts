@@ -1,12 +1,12 @@
 import fs from "fs";
 import { useridget } from "./FileFunction";
+import { getAccountDB } from "./FileFunction";
 // const bcrypt = require('bcrypt');
 // const saltRounds = 10; //ストレッチング回数
 
-export function snsLogin(userid:string,passwordhash:string){
+export function SignIn(userid:string,passwordhash:string){
 	//DB呼び出し＆デコード
-	const getdb = fs.readFileSync( "data/accountdata.json","utf8");
-	let db = JSON.parse(getdb)
+	let db = getAccountDB()
 
 	//入力情報を参照
 	const obj = {

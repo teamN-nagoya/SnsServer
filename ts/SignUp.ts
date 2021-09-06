@@ -1,17 +1,18 @@
-import { MemberRegistionC2SPacket } from "./Packet/C2Spacket/MemberRegistrationC2SPacket";
+import { SignUpC2SPacket } from "./Packet/C2Spacket/SignUpC2SPacket";
 import { Packet } from "./Packet/Packet";
 import fs from "fs";
-import { accountwriteFileJson } from "./FileFunction";
+import { accountWriteFileJson } from "./FileFunction";
 import { useridcheck } from "./FileFunction";
+import { getAccountDB } from "./FileFunction";
 
-export function memverRegistration(userid:string,passwordhash:string){ 
+export function SignUp(userid:string,username:string,passwordhash:string){ 
 	//DB呼び出し＆デコード
-	const getdb = fs.readFileSync( "data/accountdata.json","utf8")
-	let db = JSON.parse(getdb)
+	let db = getAccountDB()
 
 	//DBに受け取ったobj追加	
 	const obj = {
 		userId:userid,
+		userName:username,
 		passwordHash:passwordhash
 	}
 
@@ -20,7 +21,7 @@ export function memverRegistration(userid:string,passwordhash:string){
 	if(!(useridcheck(db,obj))){
 		db.push(obj);
 		const senddb = JSON.stringify(db,null,1);
-		accountwriteFileJson(senddb);
+		accountWriteFileJson(senddb);
 		return true
 	}
 	else{

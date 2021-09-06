@@ -12,7 +12,7 @@ var FileFunction_3 = require("./FileFunction");
 function memverDelete(userid, passwordhash) {
     //DB呼び出し＆デコード
     var getdb = fs_1.default.readFileSync("data/accountdata.json", "utf8");
-    var db = JSON.parse(getdb);
+    var db = JSON.parse(getdb || "undefined");
     //accountdata.jsonに受け取ったobj追加	
     var obj = {
         userId: userid,
@@ -25,10 +25,8 @@ function memverDelete(userid, passwordhash) {
             for (var i = 0; i < Object.keys(db).length; i++) {
                 if (db[i].userId == obj.userId) {
                     delete db[i];
-                    db.pop();
                     var senddb = JSON.stringify(db, undefined, 1);
-                    (0, FileFunction_1.accountwriteFileJson)(senddb);
-                    console.log("ユーザー情報は削除されました");
+                    (0, FileFunction_1.accountWriteFileJson)(senddb);
                     return true;
                 }
             }

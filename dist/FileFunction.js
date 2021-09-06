@@ -3,10 +3,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useridcheck = exports.useridget = exports.accountwriteFileJson = void 0;
+exports.useridcheck = exports.useridget = exports.messageWriteFileJson = exports.accountWriteFileJson = exports.getmessageDB = exports.getAccountDB = void 0;
 var fs_1 = __importDefault(require("fs"));
 //jsonに書き出し
-function accountwriteFileJson(json) {
+function getAccountDB() {
+    var getdb = fs_1.default.readFileSync("data/accountdata.json", "utf8");
+    var db = JSON.parse(getdb || "undefined");
+}
+exports.getAccountDB = getAccountDB;
+function getmessageDB() {
+    var getdb = fs_1.default.readFileSync("data/messagedata.json", "utf8");
+    var db = JSON.parse(getdb || "undefined");
+}
+exports.getmessageDB = getmessageDB;
+getAccountDB;
+function accountWriteFileJson(json) {
     fs_1.default.writeFile("data/accountdata.json", json, function (err) {
         // 書き出しに失敗した場合
         if (err) {
@@ -19,7 +30,21 @@ function accountwriteFileJson(json) {
         }
     });
 }
-exports.accountwriteFileJson = accountwriteFileJson;
+exports.accountWriteFileJson = accountWriteFileJson;
+function messageWriteFileJson(joinjson) {
+    fs_1.default.writeFile("data/messagedata.json", joinjson, function (err) {
+        // 書き出しに失敗した場合
+        if (err) {
+            console.log("エラーが発生しました。" + err);
+            throw err;
+        }
+        // 書き出しに成功した場合
+        else {
+            console.log("ファイルが正常に書き出されました");
+        }
+    });
+}
+exports.messageWriteFileJson = messageWriteFileJson;
 //dbから該当するユーザー情報を取り出し
 function useridget(db, obj) {
     for (var i = 0; i < Object.keys(db).length; i++) {

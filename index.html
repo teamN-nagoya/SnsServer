@@ -12,6 +12,7 @@
 <body>
     <input type="text" id="userId" placeholder="userId">
     <input type="text" id="passwordHash" placeholder="passwordHash">
+    <input type="text" id="userName" placeholder="userName">
     <button id="btn">ユーザー登録</button>
     <button id="btn2">ログイン</button>
     <button id="btn3">ユーザー削除</button>
@@ -45,27 +46,31 @@
         const obj1 = {
             packetName: "",
             userId: "user2",
+            userName: "userdayon",
             passwordHash: "passwordhash2"
         }
         const obj2 = {
-            packetName: "SNSS2CPacket",
+            packetName: "messageSendS2CPacket",
             userId: "user2",
-            textMessage: "message"
+            message: "message"
         }
 
         btn.addEventListener("click", e => {
             const userId = document.getElementById("userId").value;
             const passwordHash = document.getElementById("passwordHash").value;
-            obj1.packetName = "MemverRegistrationC2SPacket"
+            const userName = document.getElementById("userName").value;
+            obj1.packetName = "SignUpC2SPacket"
             obj1.userId = userId;
+            obj1.userName = userName;
             obj1.passwordHash = passwordHash;
             sock.send(JSON.stringify(obj1))
         });
         btn2.addEventListener("click", e => {
             const userId = document.getElementById("userId").value;
             const passwordHash = document.getElementById("passwordHash").value;
-            obj1.packetName = "LoginRegistrationC2SPacket";
+            obj1.packetName = "SignInC2SPacket";
             obj1.userId = userId;
+            obj1.userName = userName;
             obj1.passwordHash = passwordHash;
             sock.send(JSON.stringify(obj1))
 
@@ -73,8 +78,9 @@
         btn3.addEventListener("click", e => {
             const userId = document.getElementById("userId").value;
             const passwordHash = document.getElementById("passwordHash").value;
-            obj1.packetName = "menberEjectC2SPacket";
+            obj1.packetName = "menberDeleteC2SPacket";
             obj1.userId = userId;
+            obj1.userName = userName;
             obj1.passwordHash = passwordHash;
             sock.send(JSON.stringify(obj1))
         });
@@ -82,9 +88,9 @@
         btn4.addEventListener("click", e => {
             const userId = document.getElementById("userId").value;
             const te4 = document.getElementById("textarea4").value;
-            obj2.packetName = "SNSC2SPacket";
+            obj2.packetName = "messageSendC2SPacket";
             obj2.userId = userId;
-            obj2.textMessage = te3;
+            obj2.message = te4;
             sock.send(JSON.stringify(obj2))
         });
     </script>
