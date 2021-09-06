@@ -1,7 +1,7 @@
 "use strict";
-//余裕があったら実装できたらなユーザー削除機能
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.memverDelete = void 0;
+//余裕があったら実装できたらなユーザー削除機能
 var FileFunction_1 = require("./FileFunction");
 var FileFunction_2 = require("./FileFunction");
 var FileFunction_3 = require("./FileFunction");

@@ -16,19 +16,16 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MemberDeleteC2SPacket = void 0;
-var Packet_1 = require("../Packet");
+var C2SPacket_1 = require("../C2SPacket");
 var MemberDeleteC2SPacket = /** @class */ (function (_super) {
     __extends(MemberDeleteC2SPacket, _super);
-    function MemberDeleteC2SPacket(password, userid) {
+    function MemberDeleteC2SPacket(userId, passwordHash) {
         var _this = _super.call(this) || this;
-        _this.packetName = "MemberDeleteC2SPacket";
-        _this.userid = userid;
-        _this.password = password;
+        _this.MemberDeleteC2SPacketType = null;
+        _this.userId = userId;
+        _this.passwordHash = passwordHash;
         return _this;
     }
-    MemberDeleteC2SPacket.prototype.toJson = function () {
-        return JSON.stringify(this);
-    };
     return MemberDeleteC2SPacket;
-}(Packet_1.Packet));
+}(C2SPacket_1.C2SPacket));
 exports.MemberDeleteC2SPacket = MemberDeleteC2SPacket;

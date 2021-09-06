@@ -1,3 +1,4 @@
+//バグあります　デバッグしろ水谷
 import fs from "fs"; 
 import { messageWriteFileJson } from "./FileFunction";
 import { getmessageDB } from "./FileFunction";

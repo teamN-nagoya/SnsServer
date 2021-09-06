@@ -1,14 +1,13 @@
-import { Packet } from "../Packet";
-export class MessageSendC2SPacket extends Packet {
-	override readonly packetName:string = "MessageSendC2SPacket";
-	readonly userid:string
-	readonly message:string
-	constructor(userid:string,message:string) {
-		super()
-		this.userid = userid
-		this.message = message
-	}
-	public toJson():string {
-		return JSON.stringify(this)
+import { C2SPacket } from "../C2SPacket";
+
+export class MessageSendC2SPacket extends C2SPacket {
+	readonly MessageSendC2SPacketType:null = null;
+	userId: string;
+	message: string;
+    
+	constructor(userId:string,message:string) {
+	    super()
+	    this.userId = userId
+	    this.message = message
 	}
 }

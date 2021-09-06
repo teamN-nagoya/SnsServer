@@ -1,15 +1,13 @@
-import { Packet } from "../Packet";
-export class MessageDeleteC2SPacket extends Packet {
-	override readonly packetName:string = "MessageDeleteC2SPacket";
-	readonly userid:string
-	readonly passwordHash:string
-	constructor(passwordHash:string,userid:string) {
-		super()
-		this.userid = userid
-		this.passwordHash = passwordHash
-	}
-	public toJson():string {
-		return JSON.stringify(this)
-	}
-}
+import { C2SPacket } from "../C2SPacket";
 
+export class MessageDeleteC2SPacket extends C2SPacket {
+    readonly MessageDeleteC2SPacketType:null = null;
+    userId: string;
+    passwordHash: string;
+
+    constructor(userId:string,passwordHash:string) {
+        super()
+        this.userId = userId
+        this.passwordHash = passwordHash
+    }
+}

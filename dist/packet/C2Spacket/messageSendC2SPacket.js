@@ -16,19 +16,16 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageSendC2SPacket = void 0;
-var Packet_1 = require("../Packet");
+var C2SPacket_1 = require("../C2SPacket");
 var MessageSendC2SPacket = /** @class */ (function (_super) {
     __extends(MessageSendC2SPacket, _super);
-    function MessageSendC2SPacket(userid, message) {
+    function MessageSendC2SPacket(userId, message) {
         var _this = _super.call(this) || this;
-        _this.packetName = "MessageSendC2SPacket";
-        _this.userid = userid;
+        _this.MessageSendC2SPacketType = null;
+        _this.userId = userId;
         _this.message = message;
         return _this;
     }
-    MessageSendC2SPacket.prototype.toJson = function () {
-        return JSON.stringify(this);
-    };
     return MessageSendC2SPacket;
-}(Packet_1.Packet));
+}(C2SPacket_1.C2SPacket));
 exports.MessageSendC2SPacket = MessageSendC2SPacket;
