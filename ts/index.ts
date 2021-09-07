@@ -64,7 +64,7 @@ server.on("connection", (ws) => {
 		} else if("MessageDeleteC2SPacketType" in rawPacket){
 			const packet = (rawPacket as MessageDeleteC2SPacket)
 			console.log("Received: " + packet);
-			if(messageDelete(packet.userId,packet.message)){
+			if(messageDelete(packet.userId,packet.messageId)){
 				ws.send("MessageDelete execution")
 				console.log("MessageDelete execution")
 			} else {
