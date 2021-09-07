@@ -1,5 +1,4 @@
 import * as WebSocket from 'ws'
-import { C2SPacket } from './packets/C2SPacket';
 import { SignInRequestC2SPacket } from './packets/c2s/SignInRequestC2SPacket';
 import { SignUpRequestC2SPacket } from './packets/c2s/SignUpRequestC2SPacket';
 import { MemberDeleteC2SPacket } from './packets/c2s/memberDeleteC2SPacket';
@@ -46,31 +45,31 @@ server.on("connection", (ws) => {
 			const packet = (rawPacket as MemberDeleteC2SPacket)
 			console.log("Received: " + packet);
 				if(memberDelete(packet.userId,packet.passwordHash)){
-					ws.send("memberEject execution!")
-					console.log("memberEject execution!")
+					ws.send("MemberEject execution!")
+					console.log("MemberEject execution!")
 				} else {
-					ws.send("memberEject error")
-					console.log("memberEject error")
+					ws.send("MemberEject error")
+					console.log("MemberEject error")
 				}
 		} else if("MessageSendC2SPacketType" in rawPacket){
 			const packet = (rawPacket as MessageSendC2SPacket)
 			console.log("Received: " + packet);
 				if(messageSend(packet.userId,packet.message)){
-					ws.send("messageSend execution")
-					console.log("messageSend execution")
+					ws.send("MessageSend execution")
+					console.log("MessageSend execution")
 				} else {
-					ws.send("messageSend error")
-					console.log("messageSend error")
+					ws.send("MessageSend error")
+					console.log("MessageSend error")
 			}
 		} else if("MessageDeleteC2SPacketType" in rawPacket){
 			const packet = (rawPacket as MessageDeleteC2SPacket)
 			console.log("Received: " + packet);
 			if(messageDelete(packet.userId,packet.message)){
-				ws.send("messageDelete execution")
-				console.log("messageDelete execution")
+				ws.send("MessageDelete execution")
+				console.log("MessageDelete execution")
 			} else {
-				ws.send("messageDelete error")
-				console.log("messageDelete error")
+				ws.send("MessageDelete error")
+				console.log("MessageDelete error")
 			}
 		}
 	});
