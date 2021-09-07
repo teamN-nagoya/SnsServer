@@ -1,10 +1,10 @@
 import * as WebSocket from 'ws'
-import { C2SPacket } from './Packet/C2SPacket';
-import { SignInRequestC2SPacket } from './Packet/C2Spacket/SignInRequestC2SPacket';
-import { SignUpRequestC2SPacket } from './Packet/C2Spacket/SignUpRequestC2SPacket';
-import { MemberDeleteC2SPacket } from './Packet/C2Spacket/memberDeleteC2SPacket';
-import { MessageSendC2SPacket } from './Packet/C2Spacket/messageSendC2SPacket';
-import { MessageDeleteC2SPacket } from './Packet/C2Spacket/messageDeleteC2SPacket';
+import { C2SPacket } from './packets/C2SPacket';
+import { SignInRequestC2SPacket } from './packets/c2s/SignInRequestC2SPacket';
+import { SignUpRequestC2SPacket } from './packets/c2s/SignUpRequestC2SPacket';
+import { MemberDeleteC2SPacket } from './packets/c2s/memberDeleteC2SPacket';
+import { MessageSendC2SPacket } from './packets/c2s/MessageSendC2SPacket';
+import { MessageDeleteC2SPacket } from './packets/c2s/messageDeleteC2SPacket';
 import { SignUp } from './SignUp';
 import { SignIn } from './SignIn';
 import { memberDelete } from './memberDelete';
@@ -26,11 +26,11 @@ server.on("connection", (ws) => {
 			const packet = (rawPacket as SignUpRequestC2SPacket)
 			console.log("Received: " + packet);
 				if(SignUp(packet.userId,packet.userName,packet.passwordHash)){
-					ws.send("MemverRegistration execution!")
-					console.log("MemverRegistration error")
+					ws.send("MemberRegistration execution!")
+					console.log("MemberRegistration error")
 				} else {
-					ws.send("MemverRegistration error")
-					console.log("MemverRegistration error")
+					ws.send("MemberRegistration error")
+					console.log("MemberRegistration error")
 				};
 		} else if("SignInRequestC2SPacketType" in rawPacket){
 			const packet = (rawPacket as SignInRequestC2SPacket)

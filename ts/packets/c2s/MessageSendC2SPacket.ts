@@ -6,7 +6,7 @@ export class MessageSendC2SPacket extends C2SPacket {
 	message: string;
     
 	constructor(userId:string,message:string) {
-	    super()
+		super()
 	    this.userId = userId
 	    this.message = message
 	}
