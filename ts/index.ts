@@ -75,26 +75,26 @@ server.on("connection", (ws) => {
 				ws.send("MessageDelete error")
 				console.log("MessageDelete error")
 			}
-		// } else if("MessageRequestC2SPacket" in rawPacket){
-		// 	const packet = (rawPacket as MessageRequestC2SPacket)
-		// 	console.log("Received: " + packet);
-		// 	if(messageReturn()){
-		// 		ws.send("messageReturn execution")
-		// 		console.log("messageReturn execution")
-		// 	} else {
-		// 		ws.send("messageReturn error")
-		// 		console.log("messageReturn error")
-		// 	}	
-		// } else if("ProfileRequestC2S" in rawPacket){
-		// 	const packet = (rawPacket as ProfileRequestC2SPacket)
-		// 	console.log("Received: " + packet);
-		// 	if(profileReturn()){
-		// 		ws.send("messageReturn execution")
-		// 		console.log("messageReturn execution")
-		// 	} else {
-		// 		ws.send("messageReturn error")
-		// 		console.log("messageReturn error")
-		// 	}	
+		} else if("MessageRequestC2SPacket" in rawPacket){
+			const packet = (rawPacket as MessageRequestC2SPacket)
+			console.log("Received: " + packet);
+			if(messageReturn()){
+				ws.send("messageReturn execution")
+				console.log("messageReturn execution")
+			} else {
+				ws.send("messageReturn error")
+				console.log("messageReturn error")
+			}	
+		} else if("ProfileRequestC2S" in rawPacket){
+			const packet = (rawPacket as ProfileRequestC2SPacket)
+			console.log("Received: " + packet);
+			if(profileReturn()){
+				ws.send("messageReturn execution")
+				console.log("messageReturn execution")
+			} else {
+				ws.send("messageReturn error")
+				console.log("messageReturn error")
+			}	
 		}
 	});
 	ws.on('close', () => {

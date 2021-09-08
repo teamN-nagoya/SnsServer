@@ -21,11 +21,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocket = __importStar(require("ws"));
 var MessageSendC2SPacket_1 = require("./packets/c2s/MessageSendC2SPacket");
-var SignUp_1 = require("./SignUp");
-var SignIn_1 = require("./SignIn");
-var memberDelete_1 = require("./memberDelete");
-var messageDelete_1 = require("./messageDelete");
-var messageSend_1 = require("./messageSend");
+var SignUp_1 = require("./functions/SignUp");
+var SignIn_1 = require("./functions/SignIn");
+var memberDelete_1 = require("./functions/memberDelete");
+var profileReturn_1 = require("./functions/profileReturn");
+var messageDelete_1 = require("./functions/messageDelete");
+var messageSend_1 = require("./functions/messageSend");
+var messageReturn_1 = require("./functions/messageReturn");
 //Socket.ioで……
 var server = new WebSocket.Server({ port: 5001 });
 server.on("connection", function (ws) {
@@ -95,26 +97,30 @@ server.on("connection", function (ws) {
                 ws.send("MessageDelete error");
                 console.log("MessageDelete error");
             }
-            // } else if("MessageRequestC2SPacket" in rawPacket){
-            // 	const packet = (rawPacket as MessageRequestC2SPacket)
-            // 	console.log("Received: " + packet);
-            // 	if(messageReturn()){
-            // 		ws.send("messageReturn execution")
-            // 		console.log("messageReturn execution")
-            // 	} else {
-            // 		ws.send("messageReturn error")
-            // 		console.log("messageReturn error")
-            // 	}	
-            // } else if("ProfileRequest" in rawPacket){
-            // 	const packet = (rawPacket as ProfileRequestC2SPacket)
-            // 	console.log("Received: " + packet);
-            // 	if(profileReturn()){
-            // 		ws.send("messageReturn execution")
-            // 		console.log("messageReturn execution")
-            // 	} else {
-            // 		ws.send("messageReturn error")
-            // 		console.log("messageReturn error")
-            // 	}	
+        }
+        else if ("MessageRequestC2SPacket" in rawPacket) {
+            var packet = rawPacket;
+            console.log("Received: " + packet);
+            if ((0, messageReturn_1.messageReturn)()) {
+                ws.send("messageReturn execution");
+                console.log("messageReturn execution");
+            }
+            else {
+                ws.send("messageReturn error");
+                console.log("messageReturn error");
+            }
+        }
+        else if ("ProfileRequestC2S" in rawPacket) {
+            var packet = rawPacket;
+            console.log("Received: " + packet);
+            if ((0, profileReturn_1.profileReturn)()) {
+                ws.send("messageReturn execution");
+                console.log("messageReturn execution");
+            }
+            else {
+                ws.send("messageReturn error");
+                console.log("messageReturn error");
+            }
         }
     });
     ws.on('close', function () {
