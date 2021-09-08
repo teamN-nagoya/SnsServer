@@ -13,9 +13,6 @@ export function messageDelete(userId:string,messageId:string){
 		userId:userId,
 		messageId:messageId
 	}
-	console.log(userIdGet(db,obj).userId)
-	console.log(db.userId)
-	console.log(obj.userId)
 	//DBのmessageデータに取得してきたobjをpush
 	if(userIdGet(db,obj).userId == obj.userId){
 			//login成功
