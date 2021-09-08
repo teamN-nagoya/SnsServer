@@ -7,13 +7,13 @@ import { MessageSendC2SPacket } from './packets/c2s/MessageSendC2SPacket';
 import { MessageDeleteC2SPacket } from './packets/c2s/messageDeleteC2SPacket';
 import { MessageRequestC2SPacket } from './packets/c2s/MessageRequestC2SPacket';
 import { Packet } from './Packet';
-import { SignUp } from './SignUp';
-import { SignIn } from './SignIn';
-import { memberDelete } from './memberDelete';
-import { profileReturn } from './profileReturn';
-import { messageDelete } from './messageDelete';
-import { messageSend } from './messageSend';
-import { messageReturn } from './messageReturn';
+import { SignUp } from './functions/SignUp';
+import { SignIn } from './functions/SignIn';
+import { memberDelete } from './functions/memberDelete';
+import { profileReturn } from './functions/profileReturn';
+import { messageDelete } from './functions/messageDelete';
+import { messageSend } from './functions/messageSend';
+import { messageReturn } from './functions/messageReturn';
 
 //Socket.ioで……
 const server = new WebSocket.Server({ port: 5001 })
@@ -85,7 +85,7 @@ server.on("connection", (ws) => {
 		// 		ws.send("messageReturn error")
 		// 		console.log("messageReturn error")
 		// 	}	
-		// } else if("ProfileRequest" in rawPacket){
+		// } else if("ProfileRequestC2S" in rawPacket){
 		// 	const packet = (rawPacket as ProfileRequestC2SPacket)
 		// 	console.log("Received: " + packet);
 		// 	if(profileReturn()){

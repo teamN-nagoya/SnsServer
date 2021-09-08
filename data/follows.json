@@ -1,0 +1,15 @@
+[{
+        "follower": "followerUserId",
+        "follow": [
+            "followUserId",
+            "followUserid2"
+        ]
+    }, {
+        "follower": "followerUserId",
+        "follow": [
+            "followUserId",
+            "followUserid2"
+        ]
+    }
+
+]

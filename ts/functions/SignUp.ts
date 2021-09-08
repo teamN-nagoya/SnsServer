@@ -1,6 +1,3 @@
-import { SignUpRequestC2SPacket } from "./packets/c2s/SignUpRequestC2SPacket";
-import { C2SPacket } from "./packets/C2SPacket";
-import fs from "fs";
 import { accountWriteFileJson } from "./FileFunction";
 import { userIdCheck } from "./FileFunction";
 import { getAccountDB } from "./FileFunction";
