@@ -27,6 +27,7 @@
     "dependencies": {
         "bcrypt": "^5.0.1",
         "express": "^4.17.1",
+        "license-checker": "^25.0.1",
         "node-uuid": "^1.4.8",
         "sendmail": "^1.6.1",
         "socket.io": "^4.2.0"
