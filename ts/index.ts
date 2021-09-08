@@ -2,14 +2,18 @@ import * as WebSocket from 'ws'
 import { SignInRequestC2SPacket } from './packets/c2s/SignInRequestC2SPacket';
 import { SignUpRequestC2SPacket } from './packets/c2s/SignUpRequestC2SPacket';
 import { MemberDeleteC2SPacket } from './packets/c2s/memberDeleteC2SPacket';
+import { ProfileRequestC2SPacket } from './packets/c2s/ProfileRequestC2SPacket';
 import { MessageSendC2SPacket } from './packets/c2s/MessageSendC2SPacket';
 import { MessageDeleteC2SPacket } from './packets/c2s/messageDeleteC2SPacket';
+import { MessageRequestC2SPacket } from './packets/c2s/MessageRequestC2SPacket';
+import { Packet } from './Packet';
 import { SignUp } from './SignUp';
 import { SignIn } from './SignIn';
 import { memberDelete } from './memberDelete';
+import { profileReturn } from './profileReturn';
 import { messageDelete } from './messageDelete';
 import { messageSend } from './messageSend';
-import { Packet } from './Packet';
+import { messageReturn } from './messageReturn';
 
 //Socket.ioで……
 const server = new WebSocket.Server({ port: 5001 })
@@ -17,7 +21,7 @@ const server = new WebSocket.Server({ port: 5001 })
 server.on("connection", (ws) => {
     ws.on("message", (message) => {
 		console.log(message)
-		const rawPacket:Packet = new SignInRequestC2SPacket("user","pass")
+		const rawPacket:Packet = new MessageSendC2SPacket("user","hogentyo")
 		//テスト用
 		// packet = JSON.parse(message.toString())a
 		console.log(rawPacket)
@@ -25,11 +29,11 @@ server.on("connection", (ws) => {
 			const packet = (rawPacket as SignUpRequestC2SPacket)
 			console.log("Received: " + packet);
 				if(SignUp(packet.userId,packet.userName,packet.passwordHash)){
-					ws.send("MemberRegistration execution!")
-					console.log("MemberRegistration error")
+					ws.send("SignUp execution!")
+					console.log("SignUp error")
 				} else {
-					ws.send("MemberRegistration error")
-					console.log("MemberRegistration error")
+					ws.send("SignUp error")
+					console.log("SignUp error")
 				};
 		} else if("SignInRequestC2SPacketType" in rawPacket){
 			const packet = (rawPacket as SignInRequestC2SPacket)
@@ -45,11 +49,11 @@ server.on("connection", (ws) => {
 			const packet = (rawPacket as MemberDeleteC2SPacket)
 			console.log("Received: " + packet);
 				if(memberDelete(packet.userId,packet.passwordHash)){
-					ws.send("MemberEject execution!")
-					console.log("MemberEject execution!")
+					ws.send("MemberDelete execution!")
+					console.log("MemberDelete execution!")
 				} else {
-					ws.send("MemberEject error")
-					console.log("MemberEject error")
+					ws.send("MemberDelete error")
+					console.log("MemberDelete error")
 				}
 		} else if("MessageSendC2SPacketType" in rawPacket){
 			const packet = (rawPacket as MessageSendC2SPacket)
@@ -71,6 +75,26 @@ server.on("connection", (ws) => {
 				ws.send("MessageDelete error")
 				console.log("MessageDelete error")
 			}
+		// } else if("MessageRequestC2SPacket" in rawPacket){
+		// 	const packet = (rawPacket as MessageRequestC2SPacket)
+		// 	console.log("Received: " + packet);
+		// 	if(messageReturn()){
+		// 		ws.send("messageReturn execution")
+		// 		console.log("messageReturn execution")
+		// 	} else {
+		// 		ws.send("messageReturn error")
+		// 		console.log("messageReturn error")
+		// 	}	
+		// } else if("ProfileRequest" in rawPacket){
+		// 	const packet = (rawPacket as ProfileRequestC2SPacket)
+		// 	console.log("Received: " + packet);
+		// 	if(profileReturn()){
+		// 		ws.send("messageReturn execution")
+		// 		console.log("messageReturn execution")
+		// 	} else {
+		// 		ws.send("messageReturn error")
+		// 		console.log("messageReturn error")
+		// 	}	
 		}
 	});
 	ws.on('close', () => {

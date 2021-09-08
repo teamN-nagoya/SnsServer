@@ -6,6 +6,8 @@ import uuid, { UUID } from "node-uuid";
 export function messageSend(userId:string,message:string):string{
 	//DBからmessageデータを取得
 	let db = getMessageDB()
+	const today = new Date();
+	const time = today.getTime()
 
 	const messageId = uuid.v4()
 
@@ -13,6 +15,7 @@ export function messageSend(userId:string,message:string):string{
 	const obj = {
 		userId:userId,
 		messageId:messageId,
+		time:time,
 		message:message
 	}
 	

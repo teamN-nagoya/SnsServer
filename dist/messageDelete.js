@@ -1,29 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.messageDelete = void 0;
+//バグあります　デバッグしろ水谷
 var FileFunction_1 = require("./FileFunction");
 var FileFunction_2 = require("./FileFunction");
 var FileFunction_3 = require("./FileFunction");
-function messageDelete(requestUserid, message) {
+function messageDelete(userId, messageId) {
     //DBからmessageデータを取得
-    var db = (0, FileFunction_2.getmessageDB)();
+    var db = (0, FileFunction_2.getMessageDB)();
     //入力情報を参照
     var obj = {
-        userId: requestUserid,
-        message: message
+        userId: userId,
+        messageId: messageId
     };
-    console.log((0, FileFunction_3.useridget)(db, obj).userId);
-    console.log(db.userId);
-    console.log(obj.userId);
     //DBのmessageデータに取得してきたobjをpush
-    if ((0, FileFunction_3.useridget)(db, obj).userId == obj.userId) {
+    if ((0, FileFunction_3.userIdGet)(db, obj).userId == obj.userId) {
         //login成功
         for (var i = 0; i < Object.keys(db).length; i++) {
-            if (db[i].message == obj.message && db[i].userId == obj.userId) {
+            if (db[i].messageId == obj.messageId && db[i].userId == obj.userId) {
                 delete db[i];
                 var filterDB = db.filter(Boolean);
-                var senddb_1 = JSON.stringify(filterDB, undefined, 1);
-                (0, FileFunction_1.messageWriteFileJson)(senddb_1);
+                var sendDb_1 = JSON.stringify(filterDB, undefined, 1);
+                (0, FileFunction_1.messageWriteFileJson)(sendDb_1);
                 return true;
             }
         }
@@ -34,8 +32,8 @@ function messageDelete(requestUserid, message) {
         return false;
     }
     //pushしたものをDBに保存
-    var senddb = JSON.stringify(db, undefined, 1);
-    (0, FileFunction_1.messageWriteFileJson)(senddb);
+    var sendDb = JSON.stringify(db, undefined, 1);
+    (0, FileFunction_1.messageWriteFileJson)(sendDb);
     return true;
 }
 exports.messageDelete = messageDelete;
