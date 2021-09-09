@@ -159,11 +159,11 @@ server.on("connection", function (ws) {
             console.log("Received: " + packet);
             if ((0, profileReturn_1.profileReturn)(packet.userId, packet.myId)) {
                 ws.send(JSON.stringify(new ProfileReturnS2CPacket_1.ProfileReturnS2CPacket(packet.userId, true)));
-                console.log("messageReturn execution");
+                console.log("ProfileRequest execution");
             }
             else {
                 ws.send(JSON.stringify(new ProfileReturnS2CPacket_1.ProfileReturnS2CPacket(packet.userId, false)));
-                console.log("messageReturn execution");
+                console.log("ProfileRequest execution");
             }
         }
         else if ("TimeLineRequestC2SPacketType" in rawPacket) {
@@ -177,12 +177,12 @@ server.on("connection", function (ws) {
                         ws.send(JSON.stringify(new MessageReturnS2CPacket_1.MessageReturnS2CPacket(messagelist[i_1].userId, messagelist[i_1].messageId[i_1], messagelist[i_1].time, messagelist[i_1].message)));
                     }
                 }
-                ws.send("messageReturn execution");
-                console.log("messageReturn execution");
+                ws.send("TimeLineRequest execution");
+                console.log("TimeLineRequest execution");
             }
             else {
-                ws.send("messageReturn error");
-                console.log("messageReturn error");
+                ws.send("TimeLineRequest error");
+                console.log("TimeLineRequest error");
             }
         }
         ws.on('close', function () {

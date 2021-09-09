@@ -132,10 +132,10 @@ server.on("connection", (ws) => {
 			console.log("Received: " + packet);
 			if(profileReturn(packet.userId,packet.myId)){
 				ws.send(JSON.stringify(new ProfileReturnS2CPacket(packet.userId,true)));
-				console.log("messageReturn execution")
+				console.log("ProfileRequest execution")
 			} else {
 				ws.send(JSON.stringify(new ProfileReturnS2CPacket(packet.userId,false)));
-				console.log("messageReturn execution")
+				console.log("ProfileRequest execution")
 			}
 		}else if("TimeLineRequestC2SPacketType" in rawPacket){
 			const packet = (rawPacket as TimeLineRequestC2SPacket)
@@ -147,11 +147,11 @@ server.on("connection", (ws) => {
 				for(let i = 0; i < Object.keys(messagelist).length; i++){
 				ws.send(JSON.stringify(new MessageReturnS2CPacket(messagelist[i].userId,messagelist[i].messageId[i],messagelist[i].time,messagelist[i].message)));
 				}	}
-				ws.send("messageReturn execution")
-				console.log("messageReturn execution")
+				ws.send("TimeLineRequest execution")
+				console.log("TimeLineRequest execution")
 			} else {
-				ws.send("messageReturn error")
-				console.log("messageReturn error")
+				ws.send("TimeLineRequest error")
+				console.log("TimeLineRequest error")
 			}	}	
 	ws.on('close', () => {
         console.log('I lost a client');
