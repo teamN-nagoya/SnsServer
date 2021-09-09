@@ -1,6 +1,6 @@
-import { C2SPacket } from "../C2SPacket";
+import { S2CPacket } from "../S2CPacket";
 
-export class ProfileReturnS2CPacket extends C2SPacket {
+export class ProfileReturnS2CPacket extends S2CPacket {
 	readonly ProfileReturnS2CPacketType:null = null;
 	userName: string;
 	following:boolean;

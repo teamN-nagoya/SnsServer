@@ -1,6 +1,6 @@
-import { C2SPacket } from "../C2SPacket";
+import { S2CPacket } from "../S2CPacket";
 
-export class MessageReturnS2CPacket extends C2SPacket {
+export class MessageReturnS2CPacket extends S2CPacket {
 	readonly MessageReturnS2CPacketType:null = null;
 	userId: string;
 	time: string;
