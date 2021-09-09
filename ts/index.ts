@@ -95,7 +95,7 @@ server.on("connection", (ws) => {
 				ws.send("messageReturn error")
 				console.log("messageReturn error")
 			}	
-		}
+		} else if() 
 	});
 	ws.on('close', () => {
         console.log('I lost a client');
