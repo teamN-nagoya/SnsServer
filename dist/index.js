@@ -20,7 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocket = __importStar(require("ws"));
-var MessageRequestsC2SPacket_1 = require("./packets/c2s/MessageRequestsC2SPacket");
+var FollowC2SPacket_1 = require("./packets/c2s/FollowC2SPacket");
 var MessageReturnS2CPacket_1 = require("./packets/s2c/MessageReturnS2CPacket");
 var SignUp_1 = require("./functions/SignUp");
 var SignIn_1 = require("./functions/SignIn");
@@ -28,12 +28,13 @@ var memberDelete_1 = require("./functions/memberDelete");
 var messageDelete_1 = require("./functions/messageDelete");
 var messageSend_1 = require("./functions/messageSend");
 var messageReturn_1 = require("./functions/messageReturn");
+var follow_1 = require("./functions/follow");
 //Socket.ioで……
 var server = new WebSocket.Server({ port: 5001 });
 server.on("connection", function (ws) {
     ws.on("message", function (message) {
         console.log(message);
-        var rawPacket = new MessageRequestsC2SPacket_1.MessagesRequestC2SPacket("user");
+        var rawPacket = new FollowC2SPacket_1.FollowC2SPacket("mogepiyo", "userid");
         //テスト用
         // packet = JSON.parse(message.toString())a
         console.log(rawPacket);
@@ -124,26 +125,18 @@ server.on("connection", function (ws) {
                 console.log("MessageRequest error");
             }
         }
-        // } else if("ProfileRequestC2S" in rawPacket){
-        // 	const packet = (rawPacket as ProfileRequestC2SPacket)
-        // 	console.log("Received: " + packet);
-        // 	if(profileReturn()){
-        // 		ws.send("messageReturn execution")
-        // 		console.log("messageReturn execution")
-        // 	} else {
-        // 		ws.send("messageReturn error")
-        // 		console.log("messageReturn error")
-        // 	}	
-        // }  else if("FollowRequestC2SPacket" in rawPacket){
-        // 	const packet = (rawPacket as FollowRequestC2SPacket)
-        // 	console.log("Received: " + packet);
-        // 	if(profileReturn()){
-        // 		ws.send("messageReturn execution")
-        // 		console.log("messageReturn execution")
-        // 	} else {
-        // 		ws.send("messageReturn error")
-        // 		console.log("messageReturn error")
-        // 	}	
+        else if ("FollowC2SPacketType" in rawPacket) {
+            var packet = rawPacket;
+            console.log("Received: " + packet);
+            if ((0, follow_1.follow)(packet.followUserId, packet.myId)) {
+                ws.send("follow execution");
+                console.log("follow execution");
+            }
+            else {
+                ws.send("follow error");
+                console.log("follow error");
+            }
+        }
         // }  else if("UnFollowC2SPacket" in rawPacket){
         // 	const packet = (rawPacket as FollowRemoveC2SPacket)
         // 	console.log("Received: " + packet);
@@ -153,7 +146,17 @@ server.on("connection", function (ws) {
         // 	} else {
         // 		ws.send("messageReturn error")
         // 		console.log("messageReturn error")
-        // 	}	
+        // 	}
+        // } else if("ProfileRequestC2S" in rawPacket){
+        // 	const packet = (rawPacket as ProfileRequestC2SPacket)
+        // 	console.log("Received: " + packet);
+        // 	if(profileReturn()){
+        // 		ws.send("messageReturn execution")
+        // 		console.log("messageReturn execution")
+        // 	} else {
+        // 		ws.send("messageReturn error")
+        // 		console.log("messageReturn error")
+        // 	}
         // }else if("TimeLineRequestC2SPacket" in rawPacket){
         // 	const packet = (rawPacket as TimeLineRequestC2SPacket)
         // 	console.log("Received: " + packet);
@@ -164,8 +167,8 @@ server.on("connection", function (ws) {
         // 		ws.send("messageReturn error")
         // 		console.log("messageReturn error")
         // 	}	
-    });
-    ws.on('close', function () {
-        console.log('I lost a client');
+        ws.on('close', function () {
+            console.log('I lost a client');
+        });
     });
 });

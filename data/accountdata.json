@@ -16,7 +16,7 @@
  },
  {
   "userId": "userid",
-  "userName": "passwordHash",
-  "passwordHash": "password"
+  "userName": "userName",
+  "passwordHash": "pass"
  }
 ]

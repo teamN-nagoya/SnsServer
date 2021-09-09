@@ -37,7 +37,7 @@ export function messageWriteFileJson(joinjson:string){
 		}
 });}
 
-export function followsWriteFileJson(joinjson:string){
+export function followsWriteFileJson(joinjson:any){
 	fs.writeFile( "data/followsData.json" ,joinjson,  (err) => {
 		if(err){// 書き出しに失敗した場合
 			console.log("エラーが発生しました。" + err)
@@ -59,6 +59,17 @@ export function userIdGet(db:any,obj:any){
 		return false
 	}
 
+export function followerIdGet(db:any,obj:any){
+	for(let i = 0; i < Object.keys(db).length; i++){
+		if(db[i].followerId == obj.followerId){
+			const user = db[i]
+			return user
+		}
+	}
+	//同じuseridは含まれていない
+	return false
+}
+
 	//該当するユーザーIDが登録されているかチェック
 export function userIdCheck(db:any,obj:any){
 	for(let i = 0; i < Object.keys(db).length; i++){
@@ -70,6 +81,8 @@ export function userIdCheck(db:any,obj:any){
 	//同じuserIdは含まれていない
 	return false
 }
+
+
 	//該当する全てのユーザーIDを取り出し
 export function fullUserIdGet(db:any,obj:any){
 	const userIdlist = [];

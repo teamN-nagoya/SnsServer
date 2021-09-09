@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fullMessageIdGet = exports.fullUserIdGet = exports.userIdCheck = exports.userIdGet = exports.followsWriteFileJson = exports.messageWriteFileJson = exports.accountWriteFileJson = exports.getfollowsDB = exports.getMessageDB = exports.getAccountDB = void 0;
+exports.fullMessageIdGet = exports.fullUserIdGet = exports.userIdCheck = exports.followerIdGet = exports.userIdGet = exports.followsWriteFileJson = exports.messageWriteFileJson = exports.accountWriteFileJson = exports.getfollowsDB = exports.getMessageDB = exports.getAccountDB = void 0;
 var fs_1 = __importDefault(require("fs"));
 //jsonに書き出し
 function getAccountDB() {
@@ -72,6 +72,17 @@ function userIdGet(db, obj) {
     return false;
 }
 exports.userIdGet = userIdGet;
+function followerIdGet(db, obj) {
+    for (var i = 0; i < Object.keys(db).length; i++) {
+        if (db[i].followerId == obj.followerId) {
+            var user = db[i];
+            return user;
+        }
+    }
+    //同じuseridは含まれていない
+    return false;
+}
+exports.followerIdGet = followerIdGet;
 //該当するユーザーIDが登録されているかチェック
 function userIdCheck(db, obj) {
     for (var i = 0; i < Object.keys(db).length; i++) {

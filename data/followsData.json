@@ -1,15 +1,23 @@
-[{
-        "follower": "followerUserId",
-        "follow": [
-            "followUserId",
-            "followUserid2"
-        ]
-    }, {
-        "follower": "followerUserId",
-        "follow": [
-            "followUserId",
-            "followUserid2"
-        ]
-    }
-
+[
+ {
+  "followerId": "followerUserId",
+  "followId": [
+   "followUserId",
+   "followUserid2"
+  ]
+ },
+ {
+  "followerId": "followerUserId",
+  "followId": [
+   "followUserId",
+   "followUserid2"
+  ]
+ },
+ {
+  "followerId": "userid",
+  "followId": [
+   "hogentyo",
+   "mogepiyo"
+  ]
+ }
 ]

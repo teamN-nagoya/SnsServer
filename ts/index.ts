@@ -8,7 +8,7 @@ import { MessageSendC2SPacket } from './packets/c2s/MessageSendC2SPacket';
 import { MessageDeleteC2SPacket } from './packets/c2s/messageDeleteC2SPacket';
 import { MessagesRequestC2SPacket } from './packets/c2s/MessageRequestsC2SPacket';
 import { FollowC2SPacket } from './packets/c2s/FollowC2SPacket';
-import { UnFollowC2SPacket } from './packets/c2s/FollowUnFollowC2SPacket';
+import { UnFollowC2SPacket } from './packets/c2s/UnFollowC2SPacket';
 import { TimeLineRequestC2SPacket } from './packets/c2s/TimeLineRequestC2SPacket';
 import { ProfileReturnS2CPacket } from './packets/s2c/ProfileReturnS2CPacket';
 import { MessageReturnS2CPacket } from './packets/s2c/MessageReturnS2CPacket';
@@ -21,6 +21,7 @@ import { profileReturn } from './functions/profileReturn';
 import { messageDelete } from './functions/messageDelete';
 import { messageSend } from './functions/messageSend';
 import { messageReturn } from './functions/messageReturn';
+import { follow } from './functions/follow';
 
 //Socket.ioで……
 const server = new WebSocket.Server({ port: 5001 })
@@ -28,7 +29,7 @@ const server = new WebSocket.Server({ port: 5001 })
 server.on("connection", (ws) => {
     ws.on("message", (message) => {
 		console.log(message)
-		const rawPacket:Packet = new MessagesRequestC2SPacket("user")
+		const rawPacket:Packet = new FollowC2SPacket("mogepiyo","userid")
 		//テスト用
 		// packet = JSON.parse(message.toString())a
 		console.log(rawPacket)
@@ -104,27 +105,17 @@ server.on("connection", (ws) => {
 				ws.send("MessageRequest error")
 				console.log("MessageRequest error")
 			}
-		}
-		// } else if("ProfileRequestC2S" in rawPacket){
-		// 	const packet = (rawPacket as ProfileRequestC2SPacket)
-		// 	console.log("Received: " + packet);
-		// 	if(profileReturn()){
-		// 		ws.send("messageReturn execution")
-		// 		console.log("messageReturn execution")
-		// 	} else {
-		// 		ws.send("messageReturn error")
-		// 		console.log("messageReturn error")
-		// 	}	
-		// }  else if("FollowRequestC2SPacket" in rawPacket){
-		// 	const packet = (rawPacket as FollowRequestC2SPacket)
-		// 	console.log("Received: " + packet);
-		// 	if(profileReturn()){
-		// 		ws.send("messageReturn execution")
-		// 		console.log("messageReturn execution")
-		// 	} else {
-		// 		ws.send("messageReturn error")
-		// 		console.log("messageReturn error")
-		// 	}	
+		} else if("FollowC2SPacketType" in rawPacket){
+			const packet = (rawPacket as FollowC2SPacket)
+			console.log("Received: " + packet);
+			if(follow(packet.followUserId,packet.myId)){
+				ws.send("follow execution")
+				console.log("follow execution")
+			} else {
+				ws.send("follow error")
+				console.log("follow error")
+			}
+		}	
 		// }  else if("UnFollowC2SPacket" in rawPacket){
 		// 	const packet = (rawPacket as FollowRemoveC2SPacket)
 		// 	console.log("Received: " + packet);
@@ -134,7 +125,17 @@ server.on("connection", (ws) => {
 		// 	} else {
 		// 		ws.send("messageReturn error")
 		// 		console.log("messageReturn error")
-		// 	}	
+		// 	}
+		// } else if("ProfileRequestC2S" in rawPacket){
+		// 	const packet = (rawPacket as ProfileRequestC2SPacket)
+		// 	console.log("Received: " + packet);
+		// 	if(profileReturn()){
+		// 		ws.send("messageReturn execution")
+		// 		console.log("messageReturn execution")
+		// 	} else {
+		// 		ws.send("messageReturn error")
+		// 		console.log("messageReturn error")
+		// 	}
 		// }else if("TimeLineRequestC2SPacket" in rawPacket){
 		// 	const packet = (rawPacket as TimeLineRequestC2SPacket)
 		// 	console.log("Received: " + packet);
@@ -145,8 +146,8 @@ server.on("connection", (ws) => {
 		// 		ws.send("messageReturn error")
 		// 		console.log("messageReturn error")
 		// 	}	
-		})
 	ws.on('close', () => {
         console.log('I lost a client');
     });
+});
 });
