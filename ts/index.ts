@@ -31,7 +31,7 @@ const server = new WebSocket.Server({ port: 5001 })
 server.on("connection", (ws) => {
     ws.on("message", (message) => {
 		console.log(message)
-		const rawPacket:Packet = new TimeLineRequestC2SPacket("userid")
+		const rawPacket:Packet = new MemberDeleteC2SPacket("userid","pass")
 		//テスト用
 		// packet = JSON.parse(message.toString())a
 		console.log(rawPacket)

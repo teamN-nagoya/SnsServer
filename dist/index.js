@@ -20,7 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocket = __importStar(require("ws"));
-var TimeLineRequestC2SPacket_1 = require("./packets/c2s/TimeLineRequestC2SPacket");
+var memberDeleteC2SPacket_1 = require("./packets/c2s/memberDeleteC2SPacket");
 var ProfileReturnS2CPacket_1 = require("./packets/s2c/ProfileReturnS2CPacket");
 var MessageReturnS2CPacket_1 = require("./packets/s2c/MessageReturnS2CPacket");
 var SignUp_1 = require("./functions/SignUp");
@@ -39,7 +39,7 @@ var server = new WebSocket.Server({ port: 5001 });
 server.on("connection", function (ws) {
     ws.on("message", function (message) {
         console.log(message);
-        var rawPacket = new TimeLineRequestC2SPacket_1.TimeLineRequestC2SPacket("userid");
+        var rawPacket = new memberDeleteC2SPacket_1.MemberDeleteC2SPacket("userid", "pass");
         //テスト用
         // packet = JSON.parse(message.toString())a
         console.log(rawPacket);
