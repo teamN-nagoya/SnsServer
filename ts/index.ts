@@ -22,14 +22,14 @@ import { messageDelete } from './functions/messageDelete';
 import { messageSend } from './functions/messageSend';
 import { messageReturn } from './functions/messageReturn';
 import { follow } from './functions/follow';
-
+import { Unfollow } from './functions/UnFollow';
 //Socket.ioで……
 const server = new WebSocket.Server({ port: 5001 })
 
 server.on("connection", (ws) => {
     ws.on("message", (message) => {
 		console.log(message)
-		const rawPacket:Packet = new FollowC2SPacket("mogepiyo","userid")
+		const rawPacket:Packet = new UnFollowC2SPacket("mogepiyo","userid")
 		//テスト用
 		// packet = JSON.parse(message.toString())a
 		console.log(rawPacket)
@@ -115,18 +115,18 @@ server.on("connection", (ws) => {
 				ws.send("follow error")
 				console.log("follow error")
 			}
-		}	
-		// }  else if("UnFollowC2SPacket" in rawPacket){
-		// 	const packet = (rawPacket as FollowRemoveC2SPacket)
-		// 	console.log("Received: " + packet);
-		// 	if(profileReturn()){
-		// 		ws.send("messageReturn execution")
-		// 		console.log("messageReturn execution")
-		// 	} else {
-		// 		ws.send("messageReturn error")
-		// 		console.log("messageReturn error")
-		// 	}
-		// } else if("ProfileRequestC2S" in rawPacket){
+		} else if("UnFollowC2SPacketType" in rawPacket){
+			const packet = (rawPacket as UnFollowC2SPacket)
+			console.log("Received: " + packet);
+			if(Unfollow(packet.followUserId,packet.myId)){
+				ws.send("UnFollow execution")
+				console.log("UnFollow execution")
+			} else {
+				ws.send("UnFollow error")
+				console.log("UnFollow error")
+			}
+		}
+		// } else if("ProfileRequestC2SType" in rawPacket){
 		// 	const packet = (rawPacket as ProfileRequestC2SPacket)
 		// 	console.log("Received: " + packet);
 		// 	if(profileReturn()){
@@ -136,7 +136,7 @@ server.on("connection", (ws) => {
 		// 		ws.send("messageReturn error")
 		// 		console.log("messageReturn error")
 		// 	}
-		// }else if("TimeLineRequestC2SPacket" in rawPacket){
+		// }else if("TimeLineRequestC2SPacketType" in rawPacket){
 		// 	const packet = (rawPacket as TimeLineRequestC2SPacket)
 		// 	console.log("Received: " + packet);
 		// 	if(profileReturn()){

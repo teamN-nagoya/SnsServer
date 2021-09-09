@@ -1,6 +1,8 @@
-import { followerIdGet, followsWriteFileJson, getfollowsDB, userIdGet } from "./FileFunction";
+import { stringify } from "querystring"
+import { followerIdGet, followsWriteFileJson, getfollowsDB } from "./FileFunction"
 
-export function follow(folloUserId:string,myId:string){
+
+export function Unfollow(folloUserId:string,myId:string){
 	let db = getfollowsDB()
 	const obj = {
 		followerId:folloUserId,
@@ -9,11 +11,13 @@ export function follow(folloUserId:string,myId:string){
 
 	const list = followerIdGet(db,obj)
 	const followerlist = list["followId"]
-	followerlist.push(obj.followId)
+	const result = followerlist.filter(function(id:any) {
+		return obj.followId !== id;
+	      });
 
 	const followerObj = {
 		followerId: folloUserId,
-		followId: followerlist
+		followId: result
 	}
 	
 	for(let i = 0; i < Object.keys(db).length; i++){
@@ -25,7 +29,6 @@ export function follow(folloUserId:string,myId:string){
 			followsWriteFileJson(sendDb)
 			return true
 		}
-
 	}
 	return true
 }

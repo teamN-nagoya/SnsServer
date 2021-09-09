@@ -20,7 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocket = __importStar(require("ws"));
-var FollowC2SPacket_1 = require("./packets/c2s/FollowC2SPacket");
+var UnFollowC2SPacket_1 = require("./packets/c2s/UnFollowC2SPacket");
 var MessageReturnS2CPacket_1 = require("./packets/s2c/MessageReturnS2CPacket");
 var SignUp_1 = require("./functions/SignUp");
 var SignIn_1 = require("./functions/SignIn");
@@ -29,12 +29,13 @@ var messageDelete_1 = require("./functions/messageDelete");
 var messageSend_1 = require("./functions/messageSend");
 var messageReturn_1 = require("./functions/messageReturn");
 var follow_1 = require("./functions/follow");
+var UnFollow_1 = require("./functions/UnFollow");
 //Socket.ioで……
 var server = new WebSocket.Server({ port: 5001 });
 server.on("connection", function (ws) {
     ws.on("message", function (message) {
         console.log(message);
-        var rawPacket = new FollowC2SPacket_1.FollowC2SPacket("mogepiyo", "userid");
+        var rawPacket = new UnFollowC2SPacket_1.UnFollowC2SPacket("mogepiyo", "userid");
         //テスト用
         // packet = JSON.parse(message.toString())a
         console.log(rawPacket);
@@ -137,17 +138,19 @@ server.on("connection", function (ws) {
                 console.log("follow error");
             }
         }
-        // }  else if("UnFollowC2SPacket" in rawPacket){
-        // 	const packet = (rawPacket as FollowRemoveC2SPacket)
-        // 	console.log("Received: " + packet);
-        // 	if(profileReturn()){
-        // 		ws.send("messageReturn execution")
-        // 		console.log("messageReturn execution")
-        // 	} else {
-        // 		ws.send("messageReturn error")
-        // 		console.log("messageReturn error")
-        // 	}
-        // } else if("ProfileRequestC2S" in rawPacket){
+        else if ("UnFollowC2SPacketType" in rawPacket) {
+            var packet = rawPacket;
+            console.log("Received: " + packet);
+            if ((0, UnFollow_1.Unfollow)(packet.followUserId, packet.myId)) {
+                ws.send("UnFollow execution");
+                console.log("UnFollow execution");
+            }
+            else {
+                ws.send("UnFollow error");
+                console.log("UnFollow error");
+            }
+        }
+        // } else if("ProfileRequestC2SType" in rawPacket){
         // 	const packet = (rawPacket as ProfileRequestC2SPacket)
         // 	console.log("Received: " + packet);
         // 	if(profileReturn()){
@@ -157,7 +160,7 @@ server.on("connection", function (ws) {
         // 		ws.send("messageReturn error")
         // 		console.log("messageReturn error")
         // 	}
-        // }else if("TimeLineRequestC2SPacket" in rawPacket){
+        // }else if("TimeLineRequestC2SPacketType" in rawPacket){
         // 	const packet = (rawPacket as TimeLineRequestC2SPacket)
         // 	console.log("Received: " + packet);
         // 	if(profileReturn()){
