@@ -29,7 +29,7 @@ const server = new WebSocket.Server({ port: 5001 })
 server.on("connection", (ws) => {
     ws.on("message", (message) => {
 		console.log(message)
-		const rawPacket:Packet = new ProfileRequestC2SPacket("userid","mogepiyo")
+		const rawPacket:Packet = new MemberDeleteC2SPacket("userid","pass")
 		//テスト用
 		// packet = JSON.parse(message.toString())a
 		console.log(rawPacket)
@@ -66,7 +66,7 @@ server.on("connection", (ws) => {
 		} else if("ProfileEditC2SPacket" in rawPacket){
 			const packet = (rawPacket as ProfileEditC2SPacket)
 			console.log("Received: " + packet);
-			if(SignIn(packet.userId,packet.newUserName)){
+			if((packet.userId,packet.newUserName)){
 				ws.send("Login execution!")
 				console.log("Login execution!")
 			} else {
