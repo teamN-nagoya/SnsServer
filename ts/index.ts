@@ -23,13 +23,14 @@ import { messageSend } from './functions/messageSend';
 import { messageReturn } from './functions/messageReturn';
 import { follow } from './functions/follow';
 import { Unfollow } from './functions/UnFollow';
+import { profileEdit } from './functions/profileEdit';
 //Socket.ioで……
 const server = new WebSocket.Server({ port: 5001 })
 
 server.on("connection", (ws) => {
     ws.on("message", (message) => {
 		console.log(message)
-		const rawPacket:Packet = new MemberDeleteC2SPacket("userid","pass")
+		const rawPacket:Packet = new ProfileEditC2SPacket("userid","namedesu")
 		//テスト用
 		// packet = JSON.parse(message.toString())a
 		console.log(rawPacket)
@@ -63,10 +64,10 @@ server.on("connection", (ws) => {
 				ws.send("MemberDelete error")
 				console.log("MemberDelete error")
 			}
-		} else if("ProfileEditC2SPacket" in rawPacket){
+		} else if("ProfileEditC2SPacketType" in rawPacket){
 			const packet = (rawPacket as ProfileEditC2SPacket)
 			console.log("Received: " + packet);
-			if((packet.userId,packet.newUserName)){
+			if(profileEdit(packet.userId,packet.newUserName)){
 				ws.send("Login execution!")
 				console.log("Login execution!")
 			} else {

@@ -20,7 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocket = __importStar(require("ws"));
-var memberDeleteC2SPacket_1 = require("./packets/c2s/memberDeleteC2SPacket");
+var ProfileEditC2SPacket_1 = require("./packets/c2s/ProfileEditC2SPacket");
 var ProfileReturnS2CPacket_1 = require("./packets/s2c/ProfileReturnS2CPacket");
 var MessageReturnS2CPacket_1 = require("./packets/s2c/MessageReturnS2CPacket");
 var SignUp_1 = require("./functions/SignUp");
@@ -32,12 +32,13 @@ var messageSend_1 = require("./functions/messageSend");
 var messageReturn_1 = require("./functions/messageReturn");
 var follow_1 = require("./functions/follow");
 var UnFollow_1 = require("./functions/UnFollow");
+var profileEdit_1 = require("./functions/profileEdit");
 //Socket.ioで……
 var server = new WebSocket.Server({ port: 5001 });
 server.on("connection", function (ws) {
     ws.on("message", function (message) {
         console.log(message);
-        var rawPacket = new memberDeleteC2SPacket_1.MemberDeleteC2SPacket("userid", "pass");
+        var rawPacket = new ProfileEditC2SPacket_1.ProfileEditC2SPacket("userid", "namedesu");
         //テスト用
         // packet = JSON.parse(message.toString())a
         console.log(rawPacket);
@@ -78,10 +79,10 @@ server.on("connection", function (ws) {
                 console.log("MemberDelete error");
             }
         }
-        else if ("ProfileEditC2SPacket" in rawPacket) {
+        else if ("ProfileEditC2SPacketType" in rawPacket) {
             var packet = rawPacket;
             console.log("Received: " + packet);
-            if ((packet.userId, packet.newUserName)) {
+            if ((0, profileEdit_1.profileEdit)(packet.userId, packet.newUserName)) {
                 ws.send("Login execution!");
                 console.log("Login execution!");
             }
