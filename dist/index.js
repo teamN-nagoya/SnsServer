@@ -20,7 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocket = __importStar(require("ws"));
-var ProfileEditC2SPacket_1 = require("./packets/c2s/ProfileEditC2SPacket");
+var TimeLineRequestC2SPacket_1 = require("./packets/c2s/TimeLineRequestC2SPacket");
 var ProfileReturnS2CPacket_1 = require("./packets/s2c/ProfileReturnS2CPacket");
 var MessageReturnS2CPacket_1 = require("./packets/s2c/MessageReturnS2CPacket");
 var SignUp_1 = require("./functions/SignUp");
@@ -33,12 +33,13 @@ var messageReturn_1 = require("./functions/messageReturn");
 var follow_1 = require("./functions/follow");
 var UnFollow_1 = require("./functions/UnFollow");
 var profileEdit_1 = require("./functions/profileEdit");
+var Timeline_1 = require("./functions/Timeline");
 //Socket.ioで……
 var server = new WebSocket.Server({ port: 5001 });
 server.on("connection", function (ws) {
     ws.on("message", function (message) {
         console.log(message);
-        var rawPacket = new ProfileEditC2SPacket_1.ProfileEditC2SPacket("userid", "namedesu");
+        var rawPacket = new TimeLineRequestC2SPacket_1.TimeLineRequestC2SPacket("userid");
         //テスト用
         // packet = JSON.parse(message.toString())a
         console.log(rawPacket);
@@ -165,16 +166,25 @@ server.on("connection", function (ws) {
                 console.log("messageReturn execution");
             }
         }
-        // }else if("TimeLineRequestC2SPacketType" in rawPacket){
-        // 	const packet = (rawPacket as TimeLineRequestC2SPacket)
-        // 	console.log("Received: " + packet);
-        // 	if(profileReturn()){
-        // 		ws.send("messageReturn execution")
-        // 		console.log("messageReturn execution")
-        // 	} else {
-        // 		ws.send("messageReturn error")
-        // 		console.log("messageReturn error")
-        // 	}	
+        else if ("TimeLineRequestC2SPacketType" in rawPacket) {
+            var packet = rawPacket;
+            console.log("Received: " + packet);
+            var followerlist = (0, Timeline_1.timeLine)(packet.myId);
+            if (followerlist.length) {
+                for (var i = 0; i < Object.keys(followerlist).length; i++) {
+                    var messagelist = (0, messageReturn_1.messageReturn)(followerlist[i]);
+                    for (var i_1 = 0; i_1 < Object.keys(messagelist).length; i_1++) {
+                        ws.send(JSON.stringify(new MessageReturnS2CPacket_1.MessageReturnS2CPacket(messagelist[i_1].userId, messagelist[i_1].messageId[i_1], messagelist[i_1].time, messagelist[i_1].message)));
+                    }
+                }
+                ws.send("messageReturn execution");
+                console.log("messageReturn execution");
+            }
+            else {
+                ws.send("messageReturn error");
+                console.log("messageReturn error");
+            }
+        }
         ws.on('close', function () {
             console.log('I lost a client');
         });

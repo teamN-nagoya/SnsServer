@@ -24,13 +24,14 @@ import { messageReturn } from './functions/messageReturn';
 import { follow } from './functions/follow';
 import { Unfollow } from './functions/UnFollow';
 import { profileEdit } from './functions/profileEdit';
+import { timeLine } from './functions/Timeline';
 //Socket.ioで……
 const server = new WebSocket.Server({ port: 5001 })
 
 server.on("connection", (ws) => {
     ws.on("message", (message) => {
 		console.log(message)
-		const rawPacket:Packet = new ProfileEditC2SPacket("userid","namedesu")
+		const rawPacket:Packet = new TimeLineRequestC2SPacket("userid")
 		//テスト用
 		// packet = JSON.parse(message.toString())a
 		console.log(rawPacket)
@@ -136,17 +137,22 @@ server.on("connection", (ws) => {
 				ws.send(JSON.stringify(new ProfileReturnS2CPacket(packet.userId,false)));
 				console.log("messageReturn execution")
 			}
-		}
-		// }else if("TimeLineRequestC2SPacketType" in rawPacket){
-		// 	const packet = (rawPacket as TimeLineRequestC2SPacket)
-		// 	console.log("Received: " + packet);
-		// 	if(profileReturn()){
-		// 		ws.send("messageReturn execution")
-		// 		console.log("messageReturn execution")
-		// 	} else {
-		// 		ws.send("messageReturn error")
-		// 		console.log("messageReturn error")
-		// 	}	
+		}else if("TimeLineRequestC2SPacketType" in rawPacket){
+			const packet = (rawPacket as TimeLineRequestC2SPacket)
+			console.log("Received: " + packet);
+			const followerlist = timeLine(packet.myId)
+			if(followerlist.length){
+				for(let i = 0; i < Object.keys(followerlist).length; i++){
+				const messagelist = messageReturn(followerlist[i]) 
+				for(let i = 0; i < Object.keys(messagelist).length; i++){
+				ws.send(JSON.stringify(new MessageReturnS2CPacket(messagelist[i].userId,messagelist[i].messageId[i],messagelist[i].time,messagelist[i].message)));
+				}	}
+				ws.send("messageReturn execution")
+				console.log("messageReturn execution")
+			} else {
+				ws.send("messageReturn error")
+				console.log("messageReturn error")
+			}	}	
 	ws.on('close', () => {
         console.log('I lost a client');
     });
