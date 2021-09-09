@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.messageDelete = void 0;
-//バグあります　デバッグしろ水谷
 var FileFunction_1 = require("./FileFunction");
 var FileFunction_2 = require("./FileFunction");
 var FileFunction_3 = require("./FileFunction");

@@ -1,4 +1,4 @@
-//余裕があったら実装できたらなユーザー削除機能
+//memberDeleteと一緒にfollowsDataからも削除する記述を追加しろ水谷！！！！！！！！！
 import { accountWriteFileJson } from "./FileFunction";
 import { userIdCheck } from "./FileFunction";
 import { userIdGet } from "./FileFunction";

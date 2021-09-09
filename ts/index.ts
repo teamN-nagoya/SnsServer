@@ -29,7 +29,7 @@ const server = new WebSocket.Server({ port: 5001 })
 server.on("connection", (ws) => {
     ws.on("message", (message) => {
 		console.log(message)
-		const rawPacket:Packet = new UnFollowC2SPacket("mogepiyo","userid")
+		const rawPacket:Packet = new ProfileRequestC2SPacket("userid","mogepiyo")
 		//テスト用
 		// packet = JSON.parse(message.toString())a
 		console.log(rawPacket)
@@ -125,17 +125,17 @@ server.on("connection", (ws) => {
 				ws.send("UnFollow error")
 				console.log("UnFollow error")
 			}
+		} else if("ProfileRequestC2SPacketType" in rawPacket){
+			const packet = (rawPacket as ProfileRequestC2SPacket)
+			console.log("Received: " + packet);
+			if(profileReturn(packet.userId,packet.myId)){
+				ws.send(JSON.stringify(new ProfileReturnS2CPacket(packet.userId,true)));
+				console.log("messageReturn execution")
+			} else {
+				ws.send(JSON.stringify(new ProfileReturnS2CPacket(packet.userId,false)));
+				console.log("messageReturn execution")
+			}
 		}
-		// } else if("ProfileRequestC2SType" in rawPacket){
-		// 	const packet = (rawPacket as ProfileRequestC2SPacket)
-		// 	console.log("Received: " + packet);
-		// 	if(profileReturn()){
-		// 		ws.send("messageReturn execution")
-		// 		console.log("messageReturn execution")
-		// 	} else {
-		// 		ws.send("messageReturn error")
-		// 		console.log("messageReturn error")
-		// 	}
 		// }else if("TimeLineRequestC2SPacketType" in rawPacket){
 		// 	const packet = (rawPacket as TimeLineRequestC2SPacket)
 		// 	console.log("Received: " + packet);
@@ -149,5 +149,5 @@ server.on("connection", (ws) => {
 	ws.on('close', () => {
         console.log('I lost a client');
     });
-});
+    });
 });

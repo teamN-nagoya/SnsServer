@@ -19,10 +19,11 @@ exports.ProfileRequestC2SPacket = void 0;
 var C2SPacket_1 = require("../C2SPacket");
 var ProfileRequestC2SPacket = /** @class */ (function (_super) {
     __extends(ProfileRequestC2SPacket, _super);
-    function ProfileRequestC2SPacket(userId) {
+    function ProfileRequestC2SPacket(userId, myId) {
         var _this = _super.call(this) || this;
         _this.ProfileRequestC2SPacketType = null;
         _this.userId = userId;
+        _this.myId = myId;
         return _this;
     }
     return ProfileRequestC2SPacket;

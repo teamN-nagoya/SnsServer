@@ -1,4 +1,4 @@
-//バグあります　デバッグしろ水谷
+
 import { messageWriteFileJson } from "./FileFunction";
 import { getMessageDB } from "./FileFunction";
 import { userIdGet } from "./FileFunction";

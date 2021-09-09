@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.memberDelete = void 0;
-//余裕があったら実装できたらなユーザー削除機能
+//memberDeleteと一緒にfollowsDataからも削除する記述を追加しろ水谷！！！！！！！！！
 var FileFunction_1 = require("./FileFunction");
 var FileFunction_2 = require("./FileFunction");
 var FileFunction_3 = require("./FileFunction");
