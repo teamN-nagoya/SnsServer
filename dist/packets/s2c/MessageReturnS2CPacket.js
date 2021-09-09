@@ -16,7 +16,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageReturnS2CPacket = void 0;
-var C2SPacket_1 = require("../C2SPacket");
+var S2CPacket_1 = require("../S2CPacket");
 var MessageReturnS2CPacket = /** @class */ (function (_super) {
     __extends(MessageReturnS2CPacket, _super);
     function MessageReturnS2CPacket(userId, time, messageId, message) {
@@ -29,5 +29,5 @@ var MessageReturnS2CPacket = /** @class */ (function (_super) {
         return _this;
     }
     return MessageReturnS2CPacket;
-}(C2SPacket_1.C2SPacket));
+}(S2CPacket_1.S2CPacket));
 exports.MessageReturnS2CPacket = MessageReturnS2CPacket;

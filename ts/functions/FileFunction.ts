@@ -11,6 +11,11 @@ export function getMessageDB(){
 	let db = JSON.parse(getDb||"undefined")
 	return db
 	}
+export function getfollowsDB(){
+	const getDb = fs.readFileSync( "data/followsData.json","utf8")
+	let db = JSON.parse(getDb||"undefined")
+	return db
+	}	
 
 export function accountWriteFileJson(json:string){
 	fs.writeFile( "data/accountdata.json" ,json,  (err) => {
@@ -32,7 +37,15 @@ export function messageWriteFileJson(joinjson:string){
 		}
 });}
 
-
+export function followsWriteFileJson(joinjson:string){
+	fs.writeFile( "data/followsData.json" ,joinjson,  (err) => {
+		if(err){// 書き出しに失敗した場合
+			console.log("エラーが発生しました。" + err)
+			throw err
+		} else {// 書き出しに成功した場合
+			console.log("ファイルが正常に書き出されました")
+		}
+});}
 
 	//dbから該当するユーザー情報を取り出し
 export function userIdGet(db:any,obj:any){
@@ -55,5 +68,33 @@ export function userIdCheck(db:any,obj:any){
 		}
 	}
 	//同じuserIdは含まれていない
+	return false
+}
+	//該当する全てのユーザーIDを取り出し
+export function fullUserIdGet(db:any,obj:any){
+	const userIdlist = [];
+	for(let i = 0; i < Object.keys(db).length; i++){
+		if(db[i].userId == obj.userId){
+			userIdlist.push(db[i])
+		}
+	}
+	if(userIdlist.length){
+		return userIdlist
+	}
+	//同じmessageidは含まれていない
+	return false
+}
+	//該当する全てのユーザーIDのMessageを取り出し
+export function fullMessageIdGet(db:any,obj:any){
+	const messagelist = [];
+	for(let i = 0; i < Object.keys(db).length; i++){
+		if(db[i].userId == obj.userId){
+			messagelist.push(db[i])
+		}
+	}
+	if(messagelist.length){
+		return messagelist
+	}
+	//同じmessageidは含まれていない
 	return false
 }

@@ -15,17 +15,17 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProfileReturnS2CPacket = void 0;
-var S2CPacket_1 = require("../S2CPacket");
-var ProfileReturnS2CPacket = /** @class */ (function (_super) {
-    __extends(ProfileReturnS2CPacket, _super);
-    function ProfileReturnS2CPacket(userName, following) {
+exports.FollowRequestC2SPacket = void 0;
+var C2SPacket_1 = require("../C2SPacket");
+var FollowRequestC2SPacket = /** @class */ (function (_super) {
+    __extends(FollowRequestC2SPacket, _super);
+    function FollowRequestC2SPacket(myId, folloUserId) {
         var _this = _super.call(this) || this;
-        _this.ProfileReturnS2CPacketType = null;
-        _this.userName = userName;
-        _this.following = following;
+        _this.FollowRequestC2SPacketType = null;
+        _this.myId = myId;
+        _this.followUserId = folloUserId;
         return _this;
     }
-    return ProfileReturnS2CPacket;
-}(S2CPacket_1.S2CPacket));
-exports.ProfileReturnS2CPacket = ProfileReturnS2CPacket;
+    return FollowRequestC2SPacket;
+}(C2SPacket_1.C2SPacket));
+exports.FollowRequestC2SPacket = FollowRequestC2SPacket;

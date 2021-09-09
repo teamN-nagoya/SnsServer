@@ -20,11 +20,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocket = __importStar(require("ws"));
-var MessageSendC2SPacket_1 = require("./packets/c2s/MessageSendC2SPacket");
+var MessageRequestC2SPacket_1 = require("./packets/c2s/MessageRequestC2SPacket");
+var MessageReturnS2CPacket_1 = require("./packets/s2c/MessageReturnS2CPacket");
 var SignUp_1 = require("./functions/SignUp");
 var SignIn_1 = require("./functions/SignIn");
 var memberDelete_1 = require("./functions/memberDelete");
-var profileReturn_1 = require("./functions/profileReturn");
 var messageDelete_1 = require("./functions/messageDelete");
 var messageSend_1 = require("./functions/messageSend");
 var messageReturn_1 = require("./functions/messageReturn");
@@ -33,7 +33,7 @@ var server = new WebSocket.Server({ port: 5001 });
 server.on("connection", function (ws) {
     ws.on("message", function (message) {
         console.log(message);
-        var rawPacket = new MessageSendC2SPacket_1.MessageSendC2SPacket("user", "hogentyo");
+        var rawPacket = new MessageRequestC2SPacket_1.MessageRequestC2SPacket("user");
         //テスト用
         // packet = JSON.parse(message.toString())a
         console.log(rawPacket);
@@ -74,6 +74,18 @@ server.on("connection", function (ws) {
                 console.log("MemberDelete error");
             }
         }
+        else if ("ProfileEditC2SPacket" in rawPacket) {
+            var packet = rawPacket;
+            console.log("Received: " + packet);
+            if ((0, SignIn_1.SignIn)(packet.userId, packet.newUserName)) {
+                ws.send("Login execution!");
+                console.log("Login execution!");
+            }
+            else {
+                ws.send("Login error");
+                console.log("Login error!");
+            }
+        }
         else if ("MessageSendC2SPacketType" in rawPacket) {
             var packet = rawPacket;
             console.log("Received: " + packet);
@@ -98,30 +110,60 @@ server.on("connection", function (ws) {
                 console.log("MessageDelete error");
             }
         }
-        else if ("MessageRequestC2SPacket" in rawPacket) {
+        else if ("MessageRequestC2SPacketType" in rawPacket) {
             var packet = rawPacket;
             console.log("Received: " + packet);
-            if ((0, messageReturn_1.messageReturn)()) {
-                ws.send("messageReturn execution");
-                console.log("messageReturn execution");
+            var messagelist = (0, messageReturn_1.messageReturn)(packet.userId);
+            if (messagelist.length) {
+                for (var i = 0; i < Object.keys(messagelist).length; i++) {
+                    ws.send(JSON.stringify(new MessageReturnS2CPacket_1.MessageReturnS2CPacket(messagelist[i].userId, messagelist[i].messageId[i], messagelist[i].time, messagelist[i].message)));
+                }
             }
             else {
-                ws.send("messageReturn error");
-                console.log("messageReturn error");
+                ws.send("MessageRequest error");
+                console.log("MessageRequest error");
             }
         }
-        else if ("ProfileRequestC2S" in rawPacket) {
-            var packet = rawPacket;
-            console.log("Received: " + packet);
-            if ((0, profileReturn_1.profileReturn)()) {
-                ws.send("messageReturn execution");
-                console.log("messageReturn execution");
-            }
-            else {
-                ws.send("messageReturn error");
-                console.log("messageReturn error");
-            }
-        }
+        // } else if("ProfileRequestC2S" in rawPacket){
+        // 	const packet = (rawPacket as ProfileRequestC2SPacket)
+        // 	console.log("Received: " + packet);
+        // 	if(profileReturn()){
+        // 		ws.send("messageReturn execution")
+        // 		console.log("messageReturn execution")
+        // 	} else {
+        // 		ws.send("messageReturn error")
+        // 		console.log("messageReturn error")
+        // 	}	
+        // }  else if("FollowRequestC2SPacket" in rawPacket){
+        // 	const packet = (rawPacket as FollowRequestC2SPacket)
+        // 	console.log("Received: " + packet);
+        // 	if(profileReturn()){
+        // 		ws.send("messageReturn execution")
+        // 		console.log("messageReturn execution")
+        // 	} else {
+        // 		ws.send("messageReturn error")
+        // 		console.log("messageReturn error")
+        // 	}	
+        // }  else if("FollowRemoveC2SPacket" in rawPacket){
+        // 	const packet = (rawPacket as FollowRemoveC2SPacket)
+        // 	console.log("Received: " + packet);
+        // 	if(profileReturn()){
+        // 		ws.send("messageReturn execution")
+        // 		console.log("messageReturn execution")
+        // 	} else {
+        // 		ws.send("messageReturn error")
+        // 		console.log("messageReturn error")
+        // 	}	
+        // }else if("TimeLineRequestC2SPacket" in rawPacket){
+        // 	const packet = (rawPacket as TimeLineRequestC2SPacket)
+        // 	console.log("Received: " + packet);
+        // 	if(profileReturn()){
+        // 		ws.send("messageReturn execution")
+        // 		console.log("messageReturn execution")
+        // 	} else {
+        // 		ws.send("messageReturn error")
+        // 		console.log("messageReturn error")
+        // 	}	
     });
     ws.on('close', function () {
         console.log('I lost a client');
