@@ -20,7 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocket = __importStar(require("ws"));
-var MessageRequestC2SPacket_1 = require("./packets/c2s/MessageRequestC2SPacket");
+var MessageRequestsC2SPacket_1 = require("./packets/c2s/MessageRequestsC2SPacket");
 var MessageReturnS2CPacket_1 = require("./packets/s2c/MessageReturnS2CPacket");
 var SignUp_1 = require("./functions/SignUp");
 var SignIn_1 = require("./functions/SignIn");
@@ -33,7 +33,7 @@ var server = new WebSocket.Server({ port: 5001 });
 server.on("connection", function (ws) {
     ws.on("message", function (message) {
         console.log(message);
-        var rawPacket = new MessageRequestC2SPacket_1.MessageRequestC2SPacket("user");
+        var rawPacket = new MessageRequestsC2SPacket_1.MessagesRequestC2SPacket("user");
         //テスト用
         // packet = JSON.parse(message.toString())a
         console.log(rawPacket);
@@ -110,7 +110,7 @@ server.on("connection", function (ws) {
                 console.log("MessageDelete error");
             }
         }
-        else if ("MessageRequestC2SPacketType" in rawPacket) {
+        else if ("MessagesRequestC2SPacketType" in rawPacket) {
             var packet = rawPacket;
             console.log("Received: " + packet);
             var messagelist = (0, messageReturn_1.messageReturn)(packet.userId);
@@ -144,7 +144,7 @@ server.on("connection", function (ws) {
         // 		ws.send("messageReturn error")
         // 		console.log("messageReturn error")
         // 	}	
-        // }  else if("FollowRemoveC2SPacket" in rawPacket){
+        // }  else if("UnFollowC2SPacket" in rawPacket){
         // 	const packet = (rawPacket as FollowRemoveC2SPacket)
         // 	console.log("Received: " + packet);
         // 	if(profileReturn()){

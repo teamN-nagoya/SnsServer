@@ -6,9 +6,9 @@ import { ProfileEditC2SPacket } from './packets/c2s/ProfileEditC2SPacket';
 import { ProfileRequestC2SPacket } from './packets/c2s/ProfileRequestC2SPacket';
 import { MessageSendC2SPacket } from './packets/c2s/MessageSendC2SPacket';
 import { MessageDeleteC2SPacket } from './packets/c2s/messageDeleteC2SPacket';
-import { MessageRequestC2SPacket } from './packets/c2s/MessageRequestC2SPacket';
-import { FollowRequestC2SPacket } from './packets/c2s/FollowRequestC2SPacket';
-import { FollowRemoveC2SPacket } from './packets/c2s/FollowRemovePacketC2SPacket';
+import { MessagesRequestC2SPacket } from './packets/c2s/MessageRequestsC2SPacket';
+import { FollowC2SPacket } from './packets/c2s/FollowC2SPacket';
+import { UnFollowC2SPacket } from './packets/c2s/FollowUnFollowC2SPacket';
 import { TimeLineRequestC2SPacket } from './packets/c2s/TimeLineRequestC2SPacket';
 import { ProfileReturnS2CPacket } from './packets/s2c/ProfileReturnS2CPacket';
 import { MessageReturnS2CPacket } from './packets/s2c/MessageReturnS2CPacket';
@@ -28,7 +28,7 @@ const server = new WebSocket.Server({ port: 5001 })
 server.on("connection", (ws) => {
     ws.on("message", (message) => {
 		console.log(message)
-		const rawPacket:Packet = new MessageRequestC2SPacket("user")
+		const rawPacket:Packet = new MessagesRequestC2SPacket("user")
 		//テスト用
 		// packet = JSON.parse(message.toString())a
 		console.log(rawPacket)
@@ -92,8 +92,8 @@ server.on("connection", (ws) => {
 				ws.send("MessageDelete error")
 				console.log("MessageDelete error")
 			}
-		} else if("MessageRequestC2SPacketType" in rawPacket){
-			const packet = (rawPacket as MessageRequestC2SPacket)
+		} else if("MessagesRequestC2SPacketType" in rawPacket){
+			const packet = (rawPacket as MessagesRequestC2SPacket)
 			console.log("Received: " + packet);
 			const messagelist = messageReturn(packet.userId) 
 			if(messagelist.length){
@@ -125,7 +125,7 @@ server.on("connection", (ws) => {
 		// 		ws.send("messageReturn error")
 		// 		console.log("messageReturn error")
 		// 	}	
-		// }  else if("FollowRemoveC2SPacket" in rawPacket){
+		// }  else if("UnFollowC2SPacket" in rawPacket){
 		// 	const packet = (rawPacket as FollowRemoveC2SPacket)
 		// 	console.log("Received: " + packet);
 		// 	if(profileReturn()){
