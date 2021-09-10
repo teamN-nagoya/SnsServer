@@ -16,4 +16,4 @@ export class MessageReturnS2CPacket extends S2CPacket {
 	    this.messageId = messageId
 	    this.message = message
 	}
-    }
+}
