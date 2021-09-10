@@ -9,6 +9,7 @@ function timeLine(myId) {
     };
     var list = (0, FileFunction_1.followerIdGet)(db, obj);
     var followIdlist = list["followId"];
+    followIdlist.push(myId);
     return followIdlist;
 }
 exports.timeLine = timeLine;

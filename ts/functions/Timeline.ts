@@ -8,5 +8,7 @@ export function timeLine(myId:string){
 	}
 	const list = followerIdGet(db,obj)
 	const followIdlist = list["followId"]
+	followIdlist.push(myId)
+
 	return followIdlist
 }

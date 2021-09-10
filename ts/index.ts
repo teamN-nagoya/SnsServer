@@ -36,7 +36,7 @@ const server = new WebSocket.Server({ port: 5001 })
 server.on("connection", (ws) => {
     ws.on("message", (message) => {
 		console.log(message)
-		const rawPacket:Packet = new ProfileRequestC2SPacket("userid","hogentyo")
+		const rawPacket:Packet = JSON.parse(message.toString()) 
 		//テスト用
 		// packet = JSON.parse(message.toString())a
 		console.log(rawPacket)
