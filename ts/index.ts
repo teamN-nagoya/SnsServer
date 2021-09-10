@@ -29,13 +29,14 @@ import { Unfollow } from './functions/UnFollow';
 import { profileEdit } from './functions/profileEdit';
 import { timeLine } from './functions/Timeline';
 import { followersReturn } from './functions/followersReturn';
+import { followsReturn } from './functions/followsReturn';
 //Socket.ioで……
 const server = new WebSocket.Server({ port: 5001 })
 
 server.on("connection", (ws) => {
     ws.on("message", (message) => {
 		console.log(message)
-		const rawPacket:Packet = new UserFollowersC2SPacket("userid")
+		const rawPacket:Packet = JSON.parse(message.toString())
 		//テスト用
 		// packet = JSON.parse(message.toString())a
 		console.log(rawPacket)
@@ -141,16 +142,17 @@ server.on("connection", (ws) => {
 				ws.send(JSON.stringify(new ProfileReturnS2CPacket(packet.userId,false)));
 				console.log("ProfileRequest execution")
 			}
-		// } else if("UserFollowsC2SPacketType" in rawPacket){
-		// 	const packet = (rawPacket as UserFollowsC2SPacket)
-		// 	console.log("Received: " + packet);
-		// 	if(profileReturn(packet.userId)){
-		// 		ws.send(JSON.stringify(new ProfileReturnS2CPacket(packet.userId,true)));
-		// 		console.log("ProfileRequest execution")
-		// 	} else {
-		// 		ws.send(JSON.stringify(new ProfileReturnS2CPacket(packet.userId,false)));
-		// 		console.log("ProfileRequest execution")
-		// 	}
+		} else if("UserFollowsC2SPacketType" in rawPacket){
+			const packet = (rawPacket as UserFollowsC2SPacket)
+			console.log("Received: " + packet);
+			const list = followsReturn(packet.userId)	
+			if(list.length){
+				ws.send(JSON.stringify(new FollowsReturnS2CPacket(packet.userId,list)));	
+				console.log("UserFollows execution")
+			} else {
+				ws.send(JSON.stringify(new FollowsReturnS2CPacket(packet.userId,list)));	
+				console.log("UserFollows execution")
+			}
 		} else if("UserFollowersC2SPacketType" in rawPacket){
 			const packet = (rawPacket as UserFollowersC2SPacket)
 			console.log("Received: " + packet);

@@ -1,4 +1,9 @@
-[{}, {
+[{
+    "followerId": "null",
+    "followId": [
+        "null"
+    ]
+}, {
     "followerId": "userid",
     "followId": [
         "hogentyo",

@@ -20,10 +20,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocket = __importStar(require("ws"));
-var UserFollowersC2SPacket_1 = require("./packets/c2s/UserFollowersC2SPacket");
+var UserFollowsC2SPacket_1 = require("./packets/c2s/UserFollowsC2SPacket");
 var ProfileReturnS2CPacket_1 = require("./packets/s2c/ProfileReturnS2CPacket");
 var MessageReturnS2CPacket_1 = require("./packets/s2c/MessageReturnS2CPacket");
 var FollowersReturnS2CPacket_1 = require("./packets/s2c/FollowersReturnS2CPacket");
+var FollowsReturnS2CPacket_1 = require("./packets/s2c/FollowsReturnS2CPacket");
 var SignUp_1 = require("./functions/SignUp");
 var SignIn_1 = require("./functions/SignIn");
 var memberDelete_1 = require("./functions/memberDelete");
@@ -36,12 +37,13 @@ var UnFollow_1 = require("./functions/UnFollow");
 var profileEdit_1 = require("./functions/profileEdit");
 var Timeline_1 = require("./functions/Timeline");
 var followersReturn_1 = require("./functions/followersReturn");
+var followsReturn_1 = require("./functions/followsReturn");
 //Socket.ioで……
 var server = new WebSocket.Server({ port: 5001 });
 server.on("connection", function (ws) {
     ws.on("message", function (message) {
         console.log(message);
-        var rawPacket = new UserFollowersC2SPacket_1.UserFollowersC2SPacket("userid");
+        var rawPacket = new UserFollowsC2SPacket_1.UserFollowsC2SPacket("hogentyo");
         //テスト用
         // packet = JSON.parse(message.toString())a
         console.log(rawPacket);
@@ -167,16 +169,19 @@ server.on("connection", function (ws) {
                 ws.send(JSON.stringify(new ProfileReturnS2CPacket_1.ProfileReturnS2CPacket(packet.userId, false)));
                 console.log("ProfileRequest execution");
             }
-            // } else if("UserFollowsC2SPacketType" in rawPacket){
-            // 	const packet = (rawPacket as UserFollowsC2SPacket)
-            // 	console.log("Received: " + packet);
-            // 	if(profileReturn(packet.userId)){
-            // 		ws.send(JSON.stringify(new ProfileReturnS2CPacket(packet.userId,true)));
-            // 		console.log("ProfileRequest execution")
-            // 	} else {
-            // 		ws.send(JSON.stringify(new ProfileReturnS2CPacket(packet.userId,false)));
-            // 		console.log("ProfileRequest execution")
-            // 	}
+        }
+        else if ("UserFollowsC2SPacketType" in rawPacket) {
+            var packet = rawPacket;
+            console.log("Received: " + packet);
+            var list = (0, followsReturn_1.followsReturn)(packet.userId);
+            if (list.length) {
+                ws.send(JSON.stringify(new FollowsReturnS2CPacket_1.FollowsReturnS2CPacket(packet.userId, list)));
+                console.log("UserFollows execution");
+            }
+            else {
+                ws.send(JSON.stringify(new FollowsReturnS2CPacket_1.FollowsReturnS2CPacket(packet.userId, list)));
+                console.log("UserFollows execution");
+            }
         }
         else if ("UserFollowersC2SPacketType" in rawPacket) {
             var packet = rawPacket;
