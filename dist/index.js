@@ -203,7 +203,7 @@ server.on("connection", function (ws) {
                 for (var i = 0; i < Object.keys(followerlist).length; i++) {
                     var messagelist = (0, messageReturn_1.messageReturn)(followerlist[i]);
                     for (var i_1 = 0; i_1 < Object.keys(messagelist).length; i_1++) {
-                        ws.send(JSON.stringify(new MessageReturnS2CPacket_1.MessageReturnS2CPacket(messagelist[i_1].userId, messagelist[i_1].messageId[i_1], messagelist[i_1].time, messagelist[i_1].message)));
+                        ws.send(JSON.stringify(new MessageReturnS2CPacket_1.MessageReturnS2CPacket(messagelist[i_1].userId, messagelist[i_1].time, messagelist[i_1].messageId, messagelist[i_1].message)));
                     }
                 }
                 ws.send("TimeLineRequest execution");

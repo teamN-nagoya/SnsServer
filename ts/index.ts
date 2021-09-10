@@ -172,7 +172,7 @@ server.on("connection", (ws) => {
 				for(let i = 0; i < Object.keys(followerlist).length; i++){
 				const messagelist = messageReturn(followerlist[i]) 
 				for(let i = 0; i < Object.keys(messagelist).length; i++){
-				ws.send(JSON.stringify(new MessageReturnS2CPacket(messagelist[i].userId,messagelist[i].messageId[i],messagelist[i].time,messagelist[i].message)));
+				ws.send(JSON.stringify(new MessageReturnS2CPacket(messagelist[i].userId,messagelist[i].time,messagelist[i].messageId,messagelist[i].message)));
 				}	}
 				ws.send("TimeLineRequest execution")
 				console.log("TimeLineRequest execution")
