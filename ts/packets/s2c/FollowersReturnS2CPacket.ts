@@ -3,12 +3,12 @@ import { S2CPacket } from "../S2CPacket";
 
 export class FollowersReturnS2CPacket extends S2CPacket {
 	readonly FollowersReturnS2CPacketType:null = null;
-	followerUserId: string;
-	followUserIds:string[];
+	myId: string;
+	followerUserIds:string[];
     
-	constructor(followerUserId:string,followUserIds:string[]) {
+	constructor(myId:string,followerUserIds:string[]) {
 	    super()
-	    this.followerUserId = followerUserId
-	    this.followUserIds = followUserIds
+	    this.myId = myId
+	    this.followerUserIds = followerUserIds
 	}
     }
