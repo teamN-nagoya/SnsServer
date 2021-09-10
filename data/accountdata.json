@@ -4,5 +4,10 @@
         "userId": "userid",
         "userName": "namedesu",
         "passwordHash": "pass"
+    },
+    {
+        "userId": "hogentyo",
+        "userName": "hogename",
+        "passwordHash": "pass"
     }
 ]

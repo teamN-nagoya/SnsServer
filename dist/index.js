@@ -20,6 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocket = __importStar(require("ws"));
+var TimeLineRequestC2SPacket_1 = require("./packets/c2s/TimeLineRequestC2SPacket");
 var ProfileReturnS2CPacket_1 = require("./packets/s2c/ProfileReturnS2CPacket");
 var MessageReturnS2CPacket_1 = require("./packets/s2c/MessageReturnS2CPacket");
 var FollowersReturnS2CPacket_1 = require("./packets/s2c/FollowersReturnS2CPacket");
@@ -42,8 +43,8 @@ var server = new WebSocket.Server({ port: 5001 });
 server.on("connection", function (ws) {
     ws.on("message", function (message) {
         console.log(message);
-        var rawPacket = JSON.parse(message.toString());
-        //テスト用
+        var rawPacket = new TimeLineRequestC2SPacket_1.TimeLineRequestC2SPacket("userid");
+        //テスト,
         // packet = JSON.parse(message.toString())a
         console.log(rawPacket);
         if ("SignUpRequestC2SPacketType" in rawPacket) {
@@ -125,7 +126,7 @@ server.on("connection", function (ws) {
             var messagelist = (0, messageReturn_1.messageReturn)(packet.userId);
             if (messagelist.length) {
                 for (var i = 0; i < Object.keys(messagelist).length; i++) {
-                    ws.send(JSON.stringify(new MessageReturnS2CPacket_1.MessageReturnS2CPacket(messagelist[i].userId, messagelist[i].time, messagelist[i].messageId, messagelist[i].message)));
+                    ws.send(JSON.stringify(new MessageReturnS2CPacket_1.MessageReturnS2CPacket(messagelist[i].userId, messagelist[i].userName, messagelist[i].time, messagelist[i].messageId, messagelist[i].message)));
                 }
             }
             else {
@@ -200,10 +201,10 @@ server.on("connection", function (ws) {
             console.log("Received: " + packet);
             var followerlist = (0, Timeline_1.timeLine)(packet.myId);
             if (followerlist.length) {
-                for (var i = 0; i < Object.keys(followerlist).length; i++) {
-                    var messagelist = (0, messageReturn_1.messageReturn)(followerlist[i]);
-                    for (var i_1 = 0; i_1 < Object.keys(messagelist).length; i_1++) {
-                        ws.send(JSON.stringify(new MessageReturnS2CPacket_1.MessageReturnS2CPacket(messagelist[i_1].userId, messagelist[i_1].time, messagelist[i_1].messageId, messagelist[i_1].message)));
+                for (var n = 0; n < Object.keys(followerlist).length; n++) {
+                    var messagelist = (0, messageReturn_1.messageReturn)(followerlist[n]);
+                    for (var i = 0; i < Object.keys(messagelist).length; i++) {
+                        ws.send(JSON.stringify(new MessageReturnS2CPacket_1.MessageReturnS2CPacket(messagelist[i].userId, messagelist[i].userName, messagelist[i].time, messagelist[i].messageId, messagelist[i].message)));
                     }
                 }
                 ws.send("TimeLineRequest execution");

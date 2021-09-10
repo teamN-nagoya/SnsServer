@@ -36,8 +36,8 @@ const server = new WebSocket.Server({ port: 5001 })
 server.on("connection", (ws) => {
     ws.on("message", (message) => {
 		console.log(message)
-		const rawPacket:Packet = JSON.parse(message.toString()) 
-		//テスト用
+		const rawPacket:Packet = new TimeLineRequestC2SPacket("userid")
+		//テスト,
 		// packet = JSON.parse(message.toString())a
 		console.log(rawPacket)
 		if("SignUpRequestC2SPacketType" in rawPacket){
@@ -106,7 +106,7 @@ server.on("connection", (ws) => {
 			const messagelist = messageReturn(packet.userId) 
 			if(messagelist.length){
 				for(let i = 0; i < Object.keys(messagelist).length; i++){
-				ws.send(JSON.stringify(new MessageReturnS2CPacket(messagelist[i].userId,messagelist[i].time,messagelist[i].messageId,messagelist[i].message)));
+				ws.send(JSON.stringify(new MessageReturnS2CPacket(messagelist[i].userId,messagelist[i].userName,messagelist[i].time,messagelist[i].messageId,messagelist[i].message)));
 				}
 			} else {
 				ws.send("MessageRequest error")
@@ -169,10 +169,10 @@ server.on("connection", (ws) => {
 			console.log("Received: " + packet);
 			const followerlist = timeLine(packet.myId)
 			if(followerlist.length){
-				for(let i = 0; i < Object.keys(followerlist).length; i++){
-				const messagelist = messageReturn(followerlist[i]) 
+				for(let n = 0; n < Object.keys(followerlist).length; n++){
+				const messagelist = messageReturn(followerlist[n]) 
 				for(let i = 0; i < Object.keys(messagelist).length; i++){
-				ws.send(JSON.stringify(new MessageReturnS2CPacket(messagelist[i].userId,messagelist[i].time,messagelist[i].messageId,messagelist[i].message)));
+				ws.send(JSON.stringify(new MessageReturnS2CPacket(messagelist[i].userId,messagelist[i].userName,messagelist[i].time,messagelist[i].messageId,messagelist[i].message)));
 				}	}
 				ws.send("TimeLineRequest execution")
 				console.log("TimeLineRequest execution")

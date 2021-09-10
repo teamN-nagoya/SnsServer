@@ -19,10 +19,11 @@ exports.MessageReturnS2CPacket = void 0;
 var S2CPacket_1 = require("../S2CPacket");
 var MessageReturnS2CPacket = /** @class */ (function (_super) {
     __extends(MessageReturnS2CPacket, _super);
-    function MessageReturnS2CPacket(userId, time, messageId, message) {
+    function MessageReturnS2CPacket(userId, userName, time, messageId, message) {
         var _this = _super.call(this) || this;
         _this.MessageReturnS2CPacketType = null;
         _this.userId = userId;
+        _this.userName = userName;
         _this.time = time;
         _this.messageId = messageId;
         _this.message = message;
