@@ -10,9 +10,12 @@ import { MessagesRequestC2SPacket } from './packets/c2s/MessageRequestsC2SPacket
 import { FollowC2SPacket } from './packets/c2s/FollowC2SPacket';
 import { UnFollowC2SPacket } from './packets/c2s/UnFollowC2SPacket';
 import { TimeLineRequestC2SPacket } from './packets/c2s/TimeLineRequestC2SPacket';
+import { UserFollowsC2SPacket } from './packets/c2s/UserFollowsC2SPacket';
+import { UserFollowersC2SPacket } from './packets/c2s/UserFollowersC2SPacket';
 import { ProfileReturnS2CPacket } from './packets/s2c/ProfileReturnS2CPacket';
 import { MessageReturnS2CPacket } from './packets/s2c/MessageReturnS2CPacket';
 import { FollowersReturnS2CPacket } from './packets/s2c/FollowersReturnS2CPacket';
+import { FollowsReturnS2CPacket } from './packets/s2c/FollowsReturnS2CPacket';
 import { Packet } from './Packet';
 import { SignUp } from './functions/SignUp';
 import { SignIn } from './functions/SignIn';
@@ -25,13 +28,14 @@ import { follow } from './functions/follow';
 import { Unfollow } from './functions/UnFollow';
 import { profileEdit } from './functions/profileEdit';
 import { timeLine } from './functions/Timeline';
+import { followersReturn } from './functions/followersReturn';
 //Socket.ioで……
 const server = new WebSocket.Server({ port: 5001 })
 
 server.on("connection", (ws) => {
     ws.on("message", (message) => {
 		console.log(message)
-		const rawPacket:Packet = new MemberDeleteC2SPacket("userid","pass")
+		const rawPacket:Packet = new UserFollowersC2SPacket("userid")
 		//テスト用
 		// packet = JSON.parse(message.toString())a
 		console.log(rawPacket)
@@ -136,6 +140,26 @@ server.on("connection", (ws) => {
 			} else {
 				ws.send(JSON.stringify(new ProfileReturnS2CPacket(packet.userId,false)));
 				console.log("ProfileRequest execution")
+			}
+		// } else if("UserFollowsC2SPacketType" in rawPacket){
+		// 	const packet = (rawPacket as UserFollowsC2SPacket)
+		// 	console.log("Received: " + packet);
+		// 	if(profileReturn(packet.userId)){
+		// 		ws.send(JSON.stringify(new ProfileReturnS2CPacket(packet.userId,true)));
+		// 		console.log("ProfileRequest execution")
+		// 	} else {
+		// 		ws.send(JSON.stringify(new ProfileReturnS2CPacket(packet.userId,false)));
+		// 		console.log("ProfileRequest execution")
+		// 	}
+		} else if("UserFollowersC2SPacketType" in rawPacket){
+			const packet = (rawPacket as UserFollowersC2SPacket)
+			console.log("Received: " + packet);
+			const followerlist = followersReturn(packet.userId)
+			if(followerlist.length){
+				ws.send(JSON.stringify(new FollowersReturnS2CPacket(packet.userId,followerlist)));
+				console.log("UserFollowersReturn execution")
+			} else {
+				console.log("UserFollowersReturn execution")
 			}
 		}else if("TimeLineRequestC2SPacketType" in rawPacket){
 			const packet = (rawPacket as TimeLineRequestC2SPacket)
