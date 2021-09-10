@@ -20,6 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocket = __importStar(require("ws"));
+var ProfileRequestC2SPacket_1 = require("./packets/c2s/ProfileRequestC2SPacket");
 var ProfileReturnS2CPacket_1 = require("./packets/s2c/ProfileReturnS2CPacket");
 var MessageReturnS2CPacket_1 = require("./packets/s2c/MessageReturnS2CPacket");
 var FollowersReturnS2CPacket_1 = require("./packets/s2c/FollowersReturnS2CPacket");
@@ -42,7 +43,7 @@ var server = new WebSocket.Server({ port: 5001 });
 server.on("connection", function (ws) {
     ws.on("message", function (message) {
         console.log(message);
-        var rawPacket = JSON.parse(message.toString());
+        var rawPacket = new ProfileRequestC2SPacket_1.ProfileRequestC2SPacket("userid", "hogentyo");
         //テスト用
         // packet = JSON.parse(message.toString())a
         console.log(rawPacket);
@@ -125,7 +126,7 @@ server.on("connection", function (ws) {
             var messagelist = (0, messageReturn_1.messageReturn)(packet.userId);
             if (messagelist.length) {
                 for (var i = 0; i < Object.keys(messagelist).length; i++) {
-                    ws.send(JSON.stringify(new MessageReturnS2CPacket_1.MessageReturnS2CPacket(messagelist[i].userId, messagelist[i].messageId[i], messagelist[i].time, messagelist[i].message)));
+                    ws.send(JSON.stringify(new MessageReturnS2CPacket_1.MessageReturnS2CPacket(messagelist[i].userId, messagelist[i].time, messagelist[i].messageId, messagelist[i].message)));
                 }
             }
             else {
@@ -160,12 +161,13 @@ server.on("connection", function (ws) {
         else if ("ProfileRequestC2SPacketType" in rawPacket) {
             var packet = rawPacket;
             console.log("Received: " + packet);
-            if ((0, profileReturn_1.profileReturn)(packet.userId, packet.myId)) {
-                ws.send(JSON.stringify(new ProfileReturnS2CPacket_1.ProfileReturnS2CPacket(packet.userId, true)));
+            var obj = (0, profileReturn_1.profileReturn)(packet.userId, packet.myId);
+            if (obj.boolean) {
+                ws.send(JSON.stringify(new ProfileReturnS2CPacket_1.ProfileReturnS2CPacket(obj.userName, true)));
                 console.log("ProfileRequest execution");
             }
             else {
-                ws.send(JSON.stringify(new ProfileReturnS2CPacket_1.ProfileReturnS2CPacket(packet.userId, false)));
+                ws.send(JSON.stringify(new ProfileReturnS2CPacket_1.ProfileReturnS2CPacket(obj.userName, false)));
                 console.log("ProfileRequest execution");
             }
         }

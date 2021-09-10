@@ -36,7 +36,7 @@ const server = new WebSocket.Server({ port: 5001 })
 server.on("connection", (ws) => {
     ws.on("message", (message) => {
 		console.log(message)
-		const rawPacket:Packet = JSON.parse(message.toString())
+		const rawPacket:Packet = new ProfileRequestC2SPacket("userid","hogentyo")
 		//テスト用
 		// packet = JSON.parse(message.toString())a
 		console.log(rawPacket)
@@ -106,7 +106,7 @@ server.on("connection", (ws) => {
 			const messagelist = messageReturn(packet.userId) 
 			if(messagelist.length){
 				for(let i = 0; i < Object.keys(messagelist).length; i++){
-				ws.send(JSON.stringify(new MessageReturnS2CPacket(messagelist[i].userId,messagelist[i].messageId[i],messagelist[i].time,messagelist[i].message)));
+				ws.send(JSON.stringify(new MessageReturnS2CPacket(messagelist[i].userId,messagelist[i].time,messagelist[i].messageId,messagelist[i].message)));
 				}
 			} else {
 				ws.send("MessageRequest error")
@@ -135,11 +135,12 @@ server.on("connection", (ws) => {
 		} else if("ProfileRequestC2SPacketType" in rawPacket){
 			const packet = (rawPacket as ProfileRequestC2SPacket)
 			console.log("Received: " + packet);
-			if(profileReturn(packet.userId,packet.myId)){
-				ws.send(JSON.stringify(new ProfileReturnS2CPacket(packet.userId,true)));
+			const obj = profileReturn(packet.userId,packet.myId)
+			if(obj.boolean){
+				ws.send(JSON.stringify(new ProfileReturnS2CPacket(obj.userName,true)));
 				console.log("ProfileRequest execution")
 			} else {
-				ws.send(JSON.stringify(new ProfileReturnS2CPacket(packet.userId,false)));
+				ws.send(JSON.stringify(new ProfileReturnS2CPacket(obj.userName,false)));
 				console.log("ProfileRequest execution")
 			}
 		} else if("UserFollowsC2SPacketType" in rawPacket){
